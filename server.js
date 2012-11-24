@@ -75,7 +75,7 @@ Server.prototype.listen = function listen(port, fn) {
   this.server.listen(port, fn);
 };
 
-Server.prototype.close = function close() {
+Server.prototype.close = function close(req, res) {
   res.write('... Closing server ...');
   res.end();
 
