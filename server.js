@@ -76,9 +76,6 @@ Server.prototype.listen = function listen(port, fn) {
 };
 
 Server.prototype.close = function close(req, res) {
-  res.write('... Closing server ...');
-  res.end();
-
   Object.keys(this.clients).forEach(function(id) {
     this.clients[id].close();
   }, this);
@@ -88,6 +85,8 @@ Server.prototype.close = function close(req, res) {
   process.nextTick(function() {
     process.exit();
   });
+
+  res.end();
 };
 
 Server.prototype.error = function error(e) {
@@ -104,7 +103,6 @@ Server.prototype.error = function error(e) {
 // Routes
 
 Server.prototype.livereload = function livereload(req, res) {
-  console.log('lr...');
   request('https://raw.github.com/livereload/livereload-js/master/dist/livereload.js')
     .pipe(res);
 };
