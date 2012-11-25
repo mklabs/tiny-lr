@@ -7,6 +7,7 @@
   "repository": {
     "url": "git://github.com/mklabs/tiny-lr.git"
   },
+  "bin": "./bin/tiny-lr",
   "main": "./lib/server",
   "scripts": {
     "test": "mocha --reporter spec"
