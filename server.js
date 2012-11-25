@@ -76,6 +76,8 @@ Server.prototype.listen = function listen(port, fn) {
 };
 
 Server.prototype.close = function close(req, res) {
+  if(res) res.end();
+
   Object.keys(this.clients).forEach(function(id) {
     this.clients[id].close();
   }, this);
@@ -85,8 +87,6 @@ Server.prototype.close = function close(req, res) {
   process.nextTick(function() {
     process.exit();
   });
-
-  res.end();
 };
 
 Server.prototype.error = function error(e) {
@@ -108,15 +108,7 @@ Server.prototype.livereload = function livereload(req, res) {
 };
 
 Server.prototype.changed = function changed(req, res) {
-  var files = req.body.files || req.params.files;
-
-  var clients = Object.keys(this.clients).map(function(id) {
-    return this.clients[id].url;
-  }, this);
-
-  // res.write('Ok Buddy! I\'ll tell them!\n\n');
-  // res.write('Clients: ' + JSON.stringify(clients, null, 2) + '\n');
-  // res.write('Files: ' + JSON.stringify(files, null, 2) + '\n');
+  var files = req ? (req.body.files || req.params.files) : [];
 
   Object.keys(this.clients).forEach(function(id) {
     var client = this.clients[id];
@@ -124,6 +116,6 @@ Server.prototype.changed = function changed(req, res) {
     client.reload(files);
   }, this);
 
-  res.end();
+  if(res) res.end();
 };
 

@@ -45,7 +45,7 @@ Client.prototype.info = function info(data) {
 // Server commands
 
 Client.prototype.reload = function reload(files) {
-  files = Array.isArray(files) ? files : [files];
+  files = Array.isArray(files) ? files : files.split(/[\s,]/);
   files.forEach(function(file) {
     console.log('... Reload %s ...', file);
     this.send({
