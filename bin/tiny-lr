@@ -16,7 +16,6 @@ if (module.parent) {
   return;
 }
 
-
 // Server
 
 process.title = 'tiny-lr';
@@ -38,8 +37,13 @@ process.on('SIGINT', function() {
 
 var srv = new Server(opts);
 
-console.log();
+srv.on('close', function() {
+  process.nextTick(function() {
+    process.exit();
+  });
+});
 
+console.log();
 srv.listen(opts.port, function(err) {
   fs.writeFile(opts.pid, process.pid, function(err) {
     if(err) {
