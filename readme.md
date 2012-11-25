@@ -49,7 +49,7 @@ http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-scr
     # alias stop to livereload-stop target
     stop: livereload-stop
 
-    .PHONY: livereload livereload-stop start stop
+    .PHONY: livereload-stop stop
 
 ### Using grunt
 
@@ -125,6 +125,4 @@ server.close();
 ```
 
 This will close any websocket connection established and exit the process.
-
-
 

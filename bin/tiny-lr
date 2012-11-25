@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+var fs    = require('fs');
+var path  = require('path');
+
+var Server = require('./lr/server');
+
+// todo: noptify this
+var opts = {};
+opts.port = opts.port || 35729;
+opts.pid = opts.pid || path.resolve('tiny-lr.pid');
+
+// if it was required, don't start the server and expose the Server object.
+if (module.parent) {
+  module.exports = Server;
+  return;
+}
+
+
+// Server
+
+process.title = 'tiny-lr';
+
+process.on('exit', function() {
+  console.log('... Closing server ...');
+  console.log('... Removing pid file (%s) ...', opts.pid);
+  fs.unlinkSync(opts.pid);
+});
+
+process.on('SIGTERM', function() {
+  return process.exit(0);
+});
+
+process.on('SIGINT', function() {
+  return process.exit(0);
+});
+
+
+var srv = new Server(opts);
+
+console.log();
+
+srv.listen(opts.port, function(err) {
+  fs.writeFile(opts.pid, process.pid, function(err) {
+    if(err) {
+      console.log('... Cannot write pid file: %s', opts.pid);
+      process.exit(1)
+    }
+
+    console.log('... Listening on %s (pid: %s) ...', opts.port, process.pid);
+    console.log('... pid file: %s', opts.pid);
+  });
+});
