@@ -26,9 +26,12 @@ Or you can bulk the information into a POST request, with body as a JSON array o
 
 As for the livereload client, you need to install the browser extension:
 http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-
+(**note**: you need to listen on port 35729 to be able to use with your
+brower extension)
 
 or add the livereload script tag manually:
 http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-script-tag-manually-
+(and here you can choose whatever port you want)
 
 ## Integration
 
@@ -39,49 +42,60 @@ http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-scr
 PATH := ./node_modules/.bin:$(PATH)
 
 # define the list of files you want to watch (you can additional path from
-# the command line, with WATCHED="filepath.ext ..."
-WATCHED += $(shell find docs -name *.css )
-WATCHED += $(shell find docs -name *.html )
+CSS_FILES ?= $(shell find styles -name *.css )
+JS_FILES  ?= $(shell find scripts -name *.js )
 
 tiny-lr.pid:
   @echo ... Starting server, running in background ...
   @echo ... Run: "make stop" to stop the server ...
   @tiny-lr &
 
-livereload-stop:
+stop:
   @[ -a tiny-lr.pid ] && curl http://localhost:35729/kill
+  # or
+  # @[ -a tiny-lr.pid ] && kill $(shell cat tiny-lr.pid)
 
-# alias both livereload / start target to the server pid file.
-livereload: tiny-lr.pid
-start: livereload
+start: tiny-lr.pid
 
-# alias stop to livereload-stop target
-stop: livereload-stop
-
-# define our watch target
-watch.log: $(WATCHED)
-  @echo reload $? >> $@
+# define our watch target(s)
+styles: $(CSS_FILES)
+  @echo CSS files changed: $?
   curl -X POST http://localhost:35729/changed -d '{ "files": "$?" }'
+  touch $@
 
-clean:
-  rm watch.log
+# possibly you can group the css / js target here
+scripts: $(JS_FILES)
+  @echo JS files changed: $?
+  curl -X POST http://localhost:35729/changed -d '{ "files": "$?" }'
+  touch $@
 
-watch: tiny-lr.pid watch.log
+watch: styles scripts
 
-.PHONY: livereload-stop stop clean
+.PHONY: start stop
 ```
 
 Now, whenever you run `make watch`, make will:
 
 - Start up the server, generate the pidfile at ./tiny-lr.pid. Only if it isn't already started yet.
-- For each prerequisites in `$(WATCHED)`, make will compare last modification
-  time and build the list of updated files.
-- `@echo reload $? >> $@` takes care of editing the `watch.log` target,
-  updating the last edit time for this file.
-- and trigger a POST request to the livereload server with the list of files to refresh.
+- For each prerequisites in `$(JS_FILES)` or `$(CSS_FILES)`, make will compare last modification time and build the list of updated files.
+- If one of the prerequisites is newer than the target (the scripts or
+  styles directory), make will rerun the recipe.
+- The recipe simply trigger a POST request to the livereload server with
+  the list of files to refresh.
+- This can possibly be done after a JS or CSS compilation step (compass,
+  less, component-bulid, sprockets, r.js, browserify, etc.)
 
-Combine this with [visionmedia/watch](https://github.com/visionmedia/watch) and
-you have a livereload environment.
+Combine this with
+[visionmedia/watch](https://github.com/visionmedia/watch) and you have a
+livereload environment.
+
+    watch make scripts styles
+
+    # add a -q flag to the watch command to suppress most of the annoying output
+    watch -q scripts styles
+
+The `-q` flag only outputs STDERR, you can in your Makefile redirect the
+output of your commands to `>&2` to see them in `watch -q` mode.
 
 ### Using grunt
 
@@ -89,14 +103,9 @@ you have a livereload environment.
 // In your Gruntfile
 var Server = require('tiny-lr');
 
+var server;
 grunt.registerTask('tinylr-start', 'Start the tiny livereload server', function() {
-  grunt.log
-    .writeln('... Starting server, running in background ...')
-    .writeln('... Run: "grunt stop" to stop the server ...');
-
-    var options = this.options();
-
-    var server = new Server();
+    server = new Server();
     server.listen(options.port, this.async());
 });
 
@@ -109,12 +118,11 @@ And in one of your watch task, using `grunt.file.watchFiles` hash.
 Using the server instance created before:
 
 ```js
-// assuming you have stored the server instance before
-var server = grunt.config('tinylr-server');
-
 // use the changed method
 server.changed({
-  files: grunt.file.watchFiles.changed
+  params: {
+    files: grunt.file.watchFiles.changed
+  }
 });
 ```
 
@@ -129,6 +137,15 @@ request.post('http://localhost:35729/changed')
   .on('end', this.async());
 ```
 
+**note**:
+
+- Do not rely on `grunt.config()` to pass around the server
+instance. Rely on some closure scope if you need to access the server in
+both of your task.
+- Use grunt 0.4 to be able to access that handy
+  `grunt.file.watchFiles.changed` list of files in one of your watch
+task.
+
 ## API
 
 You can start the server using the binary provided, or use your own start script.
@@ -136,7 +153,12 @@ You can start the server using the binary provided, or use your own start script
 ```js
 var Server = require('tiny-lr');
 
-server.listen(35729, function() {
+server.listen(35729, function(err) {
+  if(err) {
+    // deal with err
+    return;
+  }
+
   console.log('... Listening on %s (pid: %s) ...', opts.port, process.pid);
 });
 ```
