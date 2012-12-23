@@ -4,9 +4,14 @@ var fs    = require('fs');
 var path  = require('path');
 
 var Server = require('..');
+var noptify = require('../lib/noptify');
 
-// todo: noptify this
-var opts = {};
+var program = noptify(process.argv, { program: 'tiny-lr' })
+  .version('0.0.1')
+  .option('port', '-p', 'Port to listen on (default: 35729)', Number)
+  .option('pid', 'Path to the generated PID file (default: ./tiny-lr.pid)', String);
+
+var opts = program.parse();
 opts.port = opts.port || 35729;
 opts.pid = opts.pid || path.resolve('tiny-lr.pid');
 
