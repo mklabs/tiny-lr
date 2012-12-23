@@ -1,0 +1,178 @@
+
+body {
+
+}
+
+.home .home-post {
+  float: right;
+}
+
+body blockquote {
+  font-size: 1em;
+}
+
+.nav i {
+  -webkit-transition: all 0.3s ease-out;
+     -moz-transition: all 0.3s ease-out;
+      -ms-transition: all 0.3s ease-out;
+       -o-transition: all 0.3s ease-out;
+          transition: all 0.3s ease-out;
+
+}
+
+.nav i:hover {
+  -webkit-transform: scale(1.8);
+     -moz-transform: scale(1.8);
+      -ms-transform: scale(1.8);
+       -o-transform: scale(1.8);
+          transform: scale(1.8);
+}
+
+.nav {
+  text-align: right;
+}
+
+.nav a {
+  margin: 0 5px;
+  padding-right: 15px;
+  border-right: 1px dotted #eee;
+}
+
+.nav a:last-child {
+  border-right: none;
+}
+
+.nav a.active {
+  font-weight: bold;
+  color: #353535;
+}
+
+/* layout styles */
+body {
+  font-size: 1em;
+  padding: 50px;
+  line-height: 1.5;
+  background: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #6d6d6d;
+}
+
+a {
+  color: #89A725;
+  text-decoration: none;
+}
+
+a:hover {
+  /** kudos to the badass who found this color **/
+  color: #bada55;
+}
+
+.header {
+  padding-top: 35px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.header .title {
+  font-family: 'Chivo', 'Helvetica Neue', Helvetica, Arial, serif; font-weight: 900;
+  letter-spacing: -1px;
+  font-size: 24px;
+  color: #303030;
+  line-height: 1.2;
+}
+
+.header .tagline {
+  letter-spacing: -1px;
+  font-size: 24px;
+  color: #aaa;
+  font-weight: normal;
+  line-height: 1.3;
+  padding-bottom: 2em;
+}
+
+.container {
+  min-height: 595px;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #303030;
+  margin-bottom: 8px;
+}
+
+h3 {
+  color: #89A725;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+h4 {
+  font-size: 16px;
+  color: #303030;
+  font-weight: bold;
+}
+
+h5 {
+  font-size: 1em;
+  color: #303030;
+}
+
+h6 {
+  font-size: .8em;
+  color: #303030;
+}
+
+p {
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+p a {
+  font-weight: 400;
+}
+
+blockquote {
+  font-size: 1.6em;
+  border-left: 10px solid #e9e9e9;
+  margin-bottom: 20px;
+  padding: 0 0 0 30px;
+}
+
+ul li {
+  list-style: disc inside;
+  padding-left: 20px;
+}
+
+ol li {
+  list-style: decimal inside;
+  padding-left: 3px;
+}
+
+dl dt {
+  color: #303030;
+}
+
+footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+footer a {
+  color: #666;
+}
+footer a:hover {
+  color: #444;
+}

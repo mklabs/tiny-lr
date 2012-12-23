@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ page.title }} .::. {{ site.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="{{ site.baseurl }}stylesheets/app.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.0.1/normalize.css">
+
+</head>
+<body>
+  <div class="container">
+    <div class="inner">
+      <header class="header">
+        <h1 class="title">
+          <a href="{{ site.baseurl }}">
+            {{ site.title }}
+            <span class="tagline">{{ site.tagline }}</span>
+          </a>
+        </h1>
+
+        <nav class="nav">
+          {{ page.tilte }}
+          <a href="/" class="{% if page.module == 'home' %}active{% endif %}"> Home</a>
+        </nav>
+      </header>
+
+      <hr />
+
+      <section class="content">
+        {{ content }}
+      </section>
+    </div>
+  </div>
+</body>
+</html>
