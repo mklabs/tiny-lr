@@ -37,6 +37,17 @@ http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-scr
 
 This package exposes a `bin` you can decide to install globally, but it's not recommended.
 
+    tiny-lr --help
+
+    Usage: tiny-lr [options]
+
+    Options:
+      -h, --help        - Show help usage
+      -v, --version     - Show package version
+      -p, --port        - Port to listen on (default: 35729)
+      --pid             - Path to the generated PID file (default: ./tiny-lr.pid)
+
+
 The best way to integrate the runner in your workflow is to add it as a `reload`
 step within your build tool. This build tool can then use the internal binary
 linked by npm in `node_modules/.bin/tiny-lr` to not rely on global installs (or
