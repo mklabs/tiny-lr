@@ -27,6 +27,7 @@
 # You can chain multiple "reload" targets in a single one:
 #
 # 		reload: reload-js reload-css reload-img reload-EVERYTHING
+
 # add tiny-lr to your PATH (only affect the Makefile environment)
 PATH := ./node_modules/.bin:$(PATH)
 

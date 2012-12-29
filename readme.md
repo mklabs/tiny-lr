@@ -35,131 +35,28 @@ http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-scr
 
 ## Integration
 
-### Using make
+This package exposes a `bin` you can decide to install globally, but it's not recommended.
 
-```make
-# add tiny-lr to your PATH (only affect the Makefile)
-PATH := ./node_modules/.bin:$(PATH)
-
-# define the list of files you want to watch (you can additional path from
-CSS_FILES ?= $(shell find styles -name *.css )
-JS_FILES  ?= $(shell find scripts -name *.js )
-
-tiny-lr.pid:
-  @echo ... Starting server, running in background ...
-  @echo ... Run: "make stop" to stop the server ...
-  @tiny-lr &
-
-stop:
-  @[ -a tiny-lr.pid ] && curl http://localhost:35729/kill
-  # or
-  # @[ -a tiny-lr.pid ] && kill $(shell cat tiny-lr.pid)
-
-start: tiny-lr.pid
-
-# define our watch target(s)
-styles: $(CSS_FILES)
-  @echo CSS files changed: $?
-  curl -X POST http://localhost:35729/changed -d '{ "files": "$?" }'
-  touch $@
-
-# possibly you can group the css / js target here
-scripts: $(JS_FILES)
-  @echo JS files changed: $?
-  curl -X POST http://localhost:35729/changed -d '{ "files": "$?" }'
-  touch $@
-
-watch: styles scripts
-
-.PHONY: start stop
-```
-
-Now, whenever you run `make watch`, make will:
-
-- Start up the server, generate the pidfile at ./tiny-lr.pid. Only if it isn't already started yet.
-- For each prerequisites in `$(JS_FILES)` or `$(CSS_FILES)`, make will compare last modification time and build the list of updated files.
-- If one of the prerequisites is newer than the target (the scripts or
-  styles directory), make will rerun the recipe.
-- The recipe simply trigger a POST request to the livereload server with
-  the list of files to refresh.
-- This can possibly be done after a JS or CSS compilation step (compass,
-  less, component-bulid, sprockets, r.js, browserify, etc.)
-
-Combine this with
-[visionmedia/watch](https://github.com/visionmedia/watch) and you have a
-livereload environment.
-
-    watch make scripts styles
-
-    # add a -q flag to the watch command to suppress most of the annoying output
-    watch -q scripts styles
-
-The `-q` flag only outputs STDERR, you can in your Makefile redirect the
-output of your commands to `>&2` to see them in `watch -q` mode.
-
-### Using grunt
-
-```js
-// In your Gruntfile
-var Server = require('tiny-lr');
-
-var server;
-grunt.registerTask('tinylr-start', 'Start the tiny livereload server', function() {
-    server = new Server();
-    server.listen(options.port, this.async());
-});
-
-// define an alias to the tinylr-start followed by watch task.
-grunt.registerTask('start', 'tinylr-start watch');
-```
-
-And in one of your watch task, using `grunt.file.watchFiles` hash.
-
-Using the server instance created before:
-
-```js
-// use the changed method
-server.changed({
-  params: {
-    files: grunt.file.watchFiles.changed
-  }
-});
-```
-
-Or make an HTTP request to the `/changed` endpoint.
-
-```js
-// https://github.com/mikeal/request
-var request = require('request');
-
-request.post('http://localhost:35729/changed')
-  .form({ files: ['style.css', 'path/to/my/app.js'] })
-  .on('end', this.async());
-```
-
-**note**:
-
-- Do not rely on `grunt.config()` to pass around the server
-instance. Rely on some closure scope if you need to access the server in
-both of your task.
-- Use grunt 0.4 to be able to access that handy
-  `grunt.file.watchFiles.changed` list of files in one of your watch
-task.
-
-## API
+The best way to integrate the runner in your workflow is to add it as a `reload`
+step within your build tool. This build tool can then use the internal binary
+linked by npm in `node_modules/.bin/tiny-lr` to not rely on global installs (or
+use the server programmtically).
 
 You can start the server using the binary provided, or use your own start script.
 
 ```js
 var Server = require('tiny-lr');
 
-server.listen(35729, function(err) {
+// standard livereload port
+var port = 35729;
+
+server.listen(port, function(err) {
   if(err) {
     // deal with err
     return;
   }
 
-  console.log('... Listening on %s (pid: %s) ...', opts.port, process.pid);
+  console.log('... Listening on %s (pid: %s) ...', port, process.pid);
 });
 ```
 
@@ -178,7 +75,92 @@ And stop the server manually:
 server.close();
 ```
 
-This will close any websocket connection established and exit the process.
+This will close any websocket connection established and emit a close event.
+
+### Using grunt
+
+This package exposes a `tasks/` directory, that you can use within your Gruntfile with:
+
+```js
+grunt.loadNpmTasks('tiny-lr');
+```
+
+- tinylr-start    - Starts a new tiny-lr Server, with the provided port.
+- tinylr-reload   - Sends a reload notification to the previously started server.
+
+`tinylr-start` should be used with the `watch` task, probably with an alias
+that triggers both `tinylr-start watch` tasks.
+
+`tinylr-reload` should be configured as a "watch" task in your Gruntfile.
+
+```js
+grunt.initConfig({
+  watch: {
+    reload: {
+      files: ['**/*.html', '**/*.js', '**/*.css', '**/*.{png,jpg}'],
+      tasks: 'tinylr-reload'
+    }
+  }
+});
+
+grunt.registerTask('reload', 'tinylr-start watch');
+```
+
+
+### Using make
+
+See `tasks/tiny-lr.mk`.
+
+Include this file into your project Makefile to bring in the following targets:
+
+- start 						- Start the LiveReload server
+- stop 							- Stops the LiveReload server
+- livereload 				- alias to start
+- livereload-stop 	- aias to stop
+
+Then define your "empty" targets, and the list of files you want to monitor.
+
+```make
+CSS_DIR = app/styles
+CSS_FILES = $(shell find $(CSS_DIR) -name '*.css')
+
+# include the livereload targets
+include node_modules/tiny-lr/tasks/*.mk
+
+$(CSS_DIR): $(CSS_FILES)
+  @echo CSS files changed: $?
+    @touch $@
+  curl -X POST http://localhost:35729/changed -d '{ "files": "$?" }'
+
+reload-css: livereload $(CSS_DIR)
+
+.PHONY: reload-css
+```
+
+The pattern is always the same:
+
+- define a target for your root directory that triggers a POST request
+- `touch` the directory to update its mtime
+- add reload target with `livereload` and the list of files to "watch" as
+  prerequisites
+
+You can chain multiple "reload" targets in a single one:
+
+```make
+reload: reload-js reload-css reload-img reload-EVERYTHING
+```
+
+Combine this with [visionmedia/watch](https://github.com/visionmedia/watch) and
+you have a livereload environment.
+
+    watch make reload
+
+    # add a -q flag to the watch command to suppress most of the annoying output
+    watch -q reload
+
+The `-q` flag only outputs STDERR, you can in your Makefile redirect the
+output of your commands to `>&2` to see them in `watch -q` mode.
+
 
 ## Tests
 
