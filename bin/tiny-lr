@@ -23,6 +23,9 @@ if (module.parent) {
 
 // Server
 
+// Thanks to @FGRibreau for his very simple and very handy gist:
+// https://gist.github.com/1846952
+
 process.title = 'tiny-lr';
 
 process.on('exit', function() {
