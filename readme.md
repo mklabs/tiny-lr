@@ -2,7 +2,19 @@ tiny-lr
 -------
 
 This script manages a tiny [LiveReload](http://livereload.com/) server
-implementation you spawn in the background.
+implementation you can spawn in the background.
+
+It exposes:
+
+- a background-friendly bin wrapper (thanks to
+  [@FGRibreau](https://github.com/FGRibreau) [pid.js
+  gist](https://gist.github.com/1846952))
+
+- [Grunt tasks](https://github.com/mklabs/tiny-lr#using-grunt) to start the server and trigger reload notification. Every task
+  name is prefixed by `tinylr-`.
+
+- [Generic targets](https://github.com/mklabs/tiny-lr#using-make) to include in
+  your Makefile (`include node_modules/tiny-lr/tasks/tiny-lr.mk`)
 
 It doesn't have any watch ability, it must be done at the build process or
 application level.

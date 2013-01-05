@@ -1,6 +1,20 @@
 
 var Server = require('..');
 
+// Basic grunt facade to tiny-lr server.
+//
+// XXX: Consider
+//
+// - spawning the server in the background.
+// - changing the reload target to use HTTP requests to notify the server.
+// - providing a `tinylr-stop` task.
+//
+// Examples
+//
+//      grunt tinylr-start &
+//      grunt tinylr-reload:path/to/asset.ext[,...]
+//
+
 module.exports = function(grunt) {
   var util = grunt.util || grunt.utils;
   var _ = util._;
@@ -28,7 +42,8 @@ module.exports = function(grunt) {
 
   // Task to send a reload notification to the previously started server.
   //
-  // This should be configured as a "watch" task in your Gruntfile.
+  // This should be configured as a "watch" task in your Gruntfile, and run
+  // after tinylr-start.
   //
   // Example
   //
