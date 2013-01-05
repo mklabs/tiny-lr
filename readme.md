@@ -344,3 +344,7 @@ request(server)
     done();
   });
 ```
+
+---
+
+- 2013-01-05 - v0.0.1 - Initial release
