@@ -10,6 +10,7 @@
   "bin": "./bin/tiny-lr",
   "main": "./lib/server",
   "scripts": {
+    "prepublish:": "npm test",
     "test": "mocha --reporter spec"
   },
   "dependencies": {
