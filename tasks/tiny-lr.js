@@ -1,4 +1,5 @@
 
+var fs = require('fs');
 var Server = require('..');
 
 // Basic grunt facade to tiny-lr server.
@@ -31,8 +32,10 @@ module.exports = function(grunt) {
   grunt.registerTask('tinylr-start', 'Start the tiny livereload server', function() {
     var options = _.defaults(grunt.config('tiny-lr') || {}, {
       port: 35729
-
     });
+
+    // if grunt 0.3, build up the list of mtimes to compare
+    changed();
 
     var done = this.async();
     server = new Server();
@@ -56,11 +59,65 @@ module.exports = function(grunt) {
   //
   grunt.registerTask('tinylr-reload', 'Sends a reload notification to the livereload server, based on `watchFiles.changed`', function() {
     if(!server) return;
+    var files = changed();
+    grunt.log.verbose.writeln('... Reloading ' + grunt.log.wordlist(files) + ' ...');
     server.changed({
       body: {
-        files: grunt.file.watchFiles.changed
+        files: files
       }
     });
   });
+
+  // Helpers
+
+  // This normalize the list of changed files between 0.4 and 0.3. If
+  // `watchFiles` is available, then use that.
+  //
+  // Otherwise, go through each watch config with `reload` as part of their
+  // `tasks`, concat all the files, and maintain a list of mtime. A changed
+  // files is simply a file with a "newer" mtime.
+  function changed() {
+    if(grunt.file.watchFiles) return grunt.file.watchFiles.changed;
+
+    var watch = grunt.config('watch');
+
+    var files = Object.keys(watch).filter(function(target) {
+      var tasks = watch[target].tasks;
+      if(!tasks) return false;
+      return ~tasks.indexOf('reload');
+    }).reduce(function(list, target) {
+      return list.concat(watch[target].files || []);
+    }, []);
+
+    files = grunt.file.expandFiles(files).filter(ignore('node_modules'));
+
+    // stat compare
+    var stats = changed.stats = changed.stats || {};
+
+    var current = files.map(function(filepath) {
+      var stat = fs.statSync(filepath);
+      stat.file = filepath;
+      return stat;
+    }).reduce(function(o, stat) {
+      o[stat.file] = stat.mtime.getTime();
+      return o;
+    }, {});
+
+
+    files = Object.keys(current).filter(function(file) {
+      if(!stats[file]) return true;
+      return stats[file] !== current[file];
+    });
+
+
+    changed.stats = current;
+    return files;
+  }
+
+
+  // filter helper
+  function ignore(pattern) { return function(item) {
+    return !~item.indexOf(pattern);
+  }}
 
 };

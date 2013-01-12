@@ -2,7 +2,7 @@
 
 var Server = require('../..');
 
-// This is an example Gruntfile for grunt 0.4.x
+// This is an example Gruntfile for grunt 0.3.x
 
 module.exports = function (grunt) {
     // Load all grunt tasks
@@ -11,7 +11,6 @@ module.exports = function (grunt) {
       watch: {
         reload: {
           files: [
-            '**/*.html',
             '**/styles/*.css',
             '**/scripts/*.js',
             '**/images/*.{png,jpg,jpeg}'
@@ -22,6 +21,11 @@ module.exports = function (grunt) {
             // '**/images/*.{png,jpg,jpeg}'
           ],
           tasks: 'tinylr-reload'
+        },
+
+        html: {
+          files: ['**/*.html'],
+          tasks: 'tinylr-reload'
         }
       }
     });
@@ -29,4 +33,5 @@ module.exports = function (grunt) {
     grunt.loadTasks('../../tasks');
 
     grunt.registerTask('reload', 'tinylr-start watch');
+
 };
