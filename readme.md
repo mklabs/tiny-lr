@@ -102,8 +102,6 @@ This will close any websocket connection established and emit a close event.
 
 ### Using grunt
 
-**you need grunt 0.4.x, as the tasks provided here rely on `grunt.file.watchFiles`**
-
 This package exposes a `tasks/` directory, that you can use within your Gruntfile with:
 
 ```js
@@ -349,4 +347,5 @@ request(server)
 
 ---
 
+- 2013-01-12 - v0.0.2 - tasks - support for grunt 0.3.x
 - 2013-01-05 - v0.0.1 - Initial release

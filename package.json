@@ -2,7 +2,7 @@
   "author": "mklabs",
   "name": "tiny-lr",
   "description": "Tiny LiveReload server, background-friendly",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/mklabs/tiny-lr",
   "repository": {
     "url": "git://github.com/mklabs/tiny-lr.git"
@@ -16,7 +16,7 @@
     "qs": "~0.5.2",
     "request": "~2.12.0",
     "faye-websocket": "~0.4.3",
-    "noptify": "0.0.1"
+    "noptify": "latest"
   },
   "devDependencies": {
     "mocha": "~1.7.1",
