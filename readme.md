@@ -68,24 +68,27 @@ use the server programmtically).
 You can start the server using the binary provided, or use your own start script.
 
 ```js
-var Server = require('tiny-lr');
+var Server = require('tiny-lr').Server;
+var server = new Server();
 
-// standard livereload port
+// standard LiveReload port
 var port = 35729;
 
-server.listen(port, function(err) {
+tinylr().listen(port, function() {
   if(err) {
     // deal with err
     return;
   }
 
-  console.log('... Listening on %s (pid: %s) ...', port, process.pid);
-});
+  console.log('... Listening on %s (pid: %s) ...', port);
+})
 ```
 
 You can define your own route and listen for specific request:
 
 ```js
+var server = tinylr();
+
 server.on('GET /myplace', function(req, res) {
   res.write('Mine');
   res.end();
@@ -99,6 +102,36 @@ server.close();
 ```
 
 This will close any websocket connection established and emit a close event.
+
+### Middleware
+
+To use as a connect / express middleware, tiny-lr needs query /
+bodyParse middlewares prior in the stack.
+
+Any handled requests ends at the tinylr level, not found and errors are
+nexted to the rest of the stack.
+
+```js
+// This binds both express app and tinylr on the same port
+var app = express();
+app.use(express.query())
+  .use(express.bodyParser())
+  .use(tinylr.middleware({ app: app }))
+  .use(express.static(path.resolve('./')))
+  .use(express.directory(path.resolve('./')))
+  .listen(35729, function() {
+    console.log('Listening on %d', 35729);
+  })
+```
+
+The port you listen on is important, and tinylr should **always** listen on
+the LiveReload standard one: `35729`. Otherwise, you won't be able to rely
+on the browser extensions, though you can still use the manual snippet
+approach.
+
+You can also start two different servers, one on your app port, the
+other listening on the LiveReload port. Check the
+`examples/express/server.js` file to see how.
 
 ### Using grunt
 
@@ -347,6 +380,7 @@ request(server)
 
 ---
 
+- 2013-01-21 - v0.0.4 - middleware support
 - 2013-01-20 - v0.0.3 - serve livereload from repo (#4)
 - 2013-01-12 - v0.0.2 - tasks - support for grunt 0.3.x (#1)
 - 2013-01-05 - v0.0.1 - Initial release

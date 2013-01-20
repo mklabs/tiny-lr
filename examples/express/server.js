@@ -19,19 +19,19 @@ var connect = require('connect');
 //      .use(express.static(path.resolve('./')))
 //      .use(express.directory(path.resolve('./')));
 //
-//    var srv = app.listen(port, function(err) {
-//      if(err) throw err;
-//      console.log('listening on %d', port);
-//    });
-//
+//    srv = app.listen(port, lr.listen.bind(lr, port));
 //    srv.on('upgrade', lr.websocketify.bind(lr));
 //
 // All this can be shorten to just
 //
-//    var app = express()
+//    var app = express();
+//
+//    app
 //      .use(express.query())
 //      .use(express.bodyParser())
-//      .use(tinylr.middleware())
+//      .use(tinylr.middleware({ app: app }))
+//      .use(express.static(path.resolve('./')))
+//      .use(express.directory(path.resolve('./')))
 //      .listen(port)
 //
 // The port you listen on is important, and tinylr should **always** listen on
@@ -44,7 +44,6 @@ var tinylr  = require('../..');
 var port = process.argv.slice(2)[0] || 35729;
 
 var app = express();
-
 app.use(express.query())
   .use(express.bodyParser())
   .use(tinylr.middleware({ app: app }))
@@ -52,4 +51,4 @@ app.use(express.query())
   .use(express.directory(path.resolve('./')))
   .listen(port, function() {
     console.log('listening on %d', port);
-  })
+  });
