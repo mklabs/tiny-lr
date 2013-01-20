@@ -3,6 +3,9 @@
 var fs    = require('fs');
 var path  = require('path');
 
+// default DEBUG if not set already
+process.env.DEBUG = process.env.DEBUG || 'tinylr tinylr:*';
+
 var Server = require('..').Server;
 var noptify = require('noptify');
 
