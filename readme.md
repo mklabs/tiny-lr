@@ -68,12 +68,12 @@ use the server programmtically).
 You can start the server using the binary provided, or use your own start script.
 
 ```js
-var Server = require('tiny-lr').Server;
-var server = new Server();
+var tinylr = require('tiny-lr');
 
 // standard LiveReload port
 var port = 35729;
 
+// tinylr(opts) => new tinylr.Server(opts);
 tinylr().listen(port, function() {
   if(err) {
     // deal with err
