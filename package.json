@@ -11,12 +11,13 @@
   "main": "./lib/server",
   "scripts": {
     "prepublish:": "npm test",
-    "test": "mocha --reporter spec"
+    "test": "DEBUG=tinylr:* mocha --reporter spec"
   },
   "dependencies": {
     "qs": "~0.5.2",
     "faye-websocket": "~0.4.3",
-    "noptify": "latest"
+    "noptify": "latest",
+    "debug": "~0.7.0"
   },
   "devDependencies": {
     "mocha": "~1.7.1",
