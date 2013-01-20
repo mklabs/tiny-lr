@@ -347,5 +347,6 @@ request(server)
 
 ---
 
-- 2013-01-12 - v0.0.2 - tasks - support for grunt 0.3.x
+- 2013-01-20 - v0.0.3 - serve livereload from repo (#4)
+- 2013-01-12 - v0.0.2 - tasks - support for grunt 0.3.x (#1)
 - 2013-01-05 - v0.0.1 - Initial release
