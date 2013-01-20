@@ -1,6 +1,6 @@
 
 var fs = require('fs');
-var Server = require('..');
+var Server = require('..').Server;
 
 // Basic grunt facade to tiny-lr server.
 //
