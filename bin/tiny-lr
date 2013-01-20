@@ -3,7 +3,7 @@
 var fs    = require('fs');
 var path  = require('path');
 
-var Server = require('..');
+var Server = require('..').Server;
 var noptify = require('noptify');
 
 var program = noptify(process.argv, { program: 'tiny-lr' })

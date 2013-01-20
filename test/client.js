@@ -4,7 +4,7 @@ var assert  = require('assert');
 var parse   = require('url').parse;
 
 var WebSocket = require('faye-websocket').Client;
-var Server = require('..');
+var Server = require('..').Server;
 
 describe('tiny-lr', function() {
 

@@ -1,14 +1,39 @@
 
-var request = require('supertest');
+var http    = require('http');
 var assert  = require('assert');
+var connect = require('connect');
+var express = require('express');
+var request = require('supertest');
+var debug   = require('debug')('tinylr:test');
+var Server  = require('..').Server;
 
-var Server = require('..').Server;
+var npmenv = process.env;
 
-describe('tiny-lr', function() {
+var port = parseInt(process.env.npm_package_config_test_port || 0, 10);
 
-  beforeEach(function() {
-    this.app = new Server;
-    this.server = this.app.server;
+describe('Connect Middleware', suite('Connect Middleware', connect()));
+describe('Express Middleware', suite('Express Middleware', express()));
+
+// XXX cover up the ws connection done in client.js / server.js tests:w
+function suite(name, app) {return function() {
+
+  before(function() {
+    this.app = app;
+    this.lr = new Server();
+
+    this.app
+      .use(connect.query())
+      .use(connect.bodyParser())
+      .use(this.lr.handler.bind(this.lr));
+
+    this.server = http.createServer(this.app);
+    debug('Start %s suite, listen on %d', name, port);
+    this.server.listen(port);
+  });
+
+
+  after(function(done) {
+    this.server.close(done);
   });
 
   describe('GET /', function() {
@@ -20,11 +45,11 @@ describe('tiny-lr', function() {
         .expect(200, done);
     });
 
-    it('unknown route respond with proper 404 and error message', function(done){
+    it('unknown route are noop with middlewares, next-ing', function(done){
       request(this.server)
         .get('/whatev')
-        .expect('Content-Type', /json/)
-        .expect('{"error":"not_found","reason":"no such route"}')
+        .expect('Content-Type', 'text/plain')
+        .expect('Cannot GET /whatev')
         .expect(404, done);
     });
   });
@@ -59,10 +84,10 @@ describe('tiny-lr', function() {
         .expect(200, done);
     });
 
-    it('with no clients, some files', function(done) {
+    it.skip('with no clients, some files', function(done) {
       var data = { clients: [], files: ['cat.css', 'sed.css', 'ack.js'] };
 
-      request(this.server)
+      var r = request(this.server)
         .post('/changed')
         .send({ files: data.files })
         .expect('Content-Type', /json/)
@@ -80,7 +105,7 @@ describe('tiny-lr', function() {
     });
   });
 
-  describe('GET /kill', function() {
+  describe.skip('GET /kill', function() {
     it('shutdown the server', function(done) {
       var server = this.server;
       request(server)
@@ -93,4 +118,4 @@ describe('tiny-lr', function() {
     });
   });
 
-});
+}};
