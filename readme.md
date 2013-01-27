@@ -159,7 +159,7 @@ grunt.initConfig({
   }
 });
 
-grunt.registerTask('reload', 'tinylr-start watch');
+grunt.registerTask('reload', ['tinylr-start', 'watch']);
 ```
 
 
