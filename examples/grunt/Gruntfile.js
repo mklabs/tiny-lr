@@ -28,5 +28,5 @@ module.exports = function (grunt) {
 
     grunt.loadTasks('../../tasks');
 
-    grunt.registerTask('reload', 'tinylr-start watch');
+    grunt.registerTask('reload', ['tinylr-start', 'watch']);
 };
