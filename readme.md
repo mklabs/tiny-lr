@@ -1,3 +1,6 @@
+**this fork's server will broadcast reload command even when triggered with zero changed files**
+
+
 tiny-lr
 -------
 
