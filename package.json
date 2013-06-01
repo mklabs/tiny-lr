@@ -30,5 +30,9 @@
   },
   "config": {
     "test_port": "9001"
-  }
+  },
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/mklabs/tiny-lr/blob/master/LICENSE-MIT"
+  }]
 }
