@@ -1,6 +1,6 @@
 {
   "author": "mklabs",
-  "name": "tiny-lr",
+  "name": "tiny-lr-fork",
   "description": "Tiny LiveReload server, background-friendly",
   "version": "0.0.5",
   "homepage": "https://github.com/mklabs/tiny-lr",
