@@ -1,3 +1,13 @@
+This is a fork of tiny-lr. The maintainer of tiny-lr appears to be on a hiatus and this fork takes care of lingering issues until the maintainer of tiny-lr (hopefully) returns.
+
+**Changes made:**
+
+* Quieter, removes `console.log`s
+* Use WSS when livereload.js is on HTTPS
+* Normalize windows paths in livereload.js
+
+---
+
 tiny-lr
 -------
 
