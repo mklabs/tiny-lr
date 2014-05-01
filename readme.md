@@ -71,12 +71,7 @@ var port = 35729;
 
 // tinylr(opts) => new tinylr.Server(opts);
 tinylr().listen(port, function() {
-  if(err) {
-    // deal with err
-    return;
-  }
-
-  console.log('... Listening on %s (pid: %s) ...', port);
+  console.log('... Listening on %s ...', port);
 })
 ```
 
