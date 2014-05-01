@@ -6,16 +6,11 @@ var parse   = require('url').parse;
 var WebSocket = require('faye-websocket').Client;
 var Server = require('..').Server;
 
+var listen = require('./helpers/listen');
+
 describe('tiny-lr', function() {
 
-  before(function(done) {
-    this.app = new Server;
-    this.server = this.app.server;
-    this.request = request(this.server)
-      .get('/')
-      .expect(200, done);
-  });
-
+  before(listen());
 
   it('accepts ws clients', function(done) {
     var url = parse(this.request.url);

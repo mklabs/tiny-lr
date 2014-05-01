@@ -5,12 +5,14 @@ var path  = require('path');
 
 // default DEBUG if not set already
 process.env.DEBUG = process.env.DEBUG || 'tinylr tinylr:*';
+var debug = require('debug')('tinylr:cli');
 
 var Server = require('..').Server;
 var noptify = require('noptify');
 
+// TODO: Switch over to commander or nopt / nopt-help, deprecate / unpublish noptify.
 var program = noptify(process.argv, { program: 'tiny-lr' })
-  .version('0.0.1')
+  .version(require('../package').version)
   .option('port', '-p', 'Port to listen on (default: 35729)', Number)
   .option('pid', 'Path to the generated PID file (default: ./tiny-lr.pid)', String);
 
@@ -32,8 +34,8 @@ if (module.parent) {
 process.title = 'tiny-lr';
 
 process.on('exit', function() {
-  console.log('... Closing server ...');
-  console.log('... Removing pid file (%s) ...', opts.pid);
+  debug('... Closing server ...');
+  debug('... Removing pid file (%s) ...', opts.pid);
   fs.unlinkSync(opts.pid);
 });
 
@@ -54,15 +56,14 @@ srv.on('close', function() {
   });
 });
 
-console.log();
 srv.listen(opts.port, function(err) {
   fs.writeFile(opts.pid, process.pid, function(err) {
     if(err) {
-      console.log('... Cannot write pid file: %s', opts.pid);
+      debug('... Cannot write pid file: %s', opts.pid);
       process.exit(1)
     }
 
-    console.log('... Listening on %s (pid: %s) ...', opts.port, process.pid);
-    console.log('... pid file: %s', opts.pid);
+    debug('... Listening on %s (pid: %s) ...', opts.port, process.pid);
+    debug('... pid file: %s', opts.pid);
   });
 });

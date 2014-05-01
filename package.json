@@ -16,17 +16,18 @@
     "test-debug-all": "DEBUG=* mocha --reporter list"
   },
   "dependencies": {
-    "qs": "~0.5.2",
-    "faye-websocket": "~0.4.3",
+    "qs": "^0.5.6",
+    "faye-websocket": "^0.4.4",
     "noptify": "~0.0.3",
-    "debug": "~0.8.0"
+    "debug": "^0.8.1"
   },
   "devDependencies": {
-    "mocha": "~1.7.1",
-    "request": "~2.12.0",
-    "supertest": "~0.4.2",
-    "express": "~3.0.6",
-    "connect": "~2.7.2"
+    "mocha": "^1.18.2",
+    "request": "^2.34.0",
+    "supertest": "^0.12.0",
+    "express": "^4.1.1",
+    "connect": "^2.14.5",
+    "body-parser": "^1.0.2"
   },
   "config": {
     "test_port": "9001"

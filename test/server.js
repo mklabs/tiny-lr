@@ -4,12 +4,11 @@ var assert  = require('assert');
 
 var Server = require('..').Server;
 
+var listen = require('./helpers/listen');
+
 describe('tiny-lr', function() {
 
-  beforeEach(function() {
-    this.app = new Server;
-    this.server = this.app.server;
-  });
+  before(listen());
 
   describe('GET /', function() {
     it('respond with nothing, but respond', function(done){
@@ -82,12 +81,13 @@ describe('tiny-lr', function() {
 
   describe('GET /kill', function() {
     it('shutdown the server', function(done) {
-      var server = this.server;
-      request(server)
+      var srv = this.server;
+      request(srv)
         .get('/kill')
         .expect(200, function(err) {
+          console.log('err');
           if(err) return done(err);
-          assert.ok(!server._handle);
+          assert.ok(!srv._handle);
           done();
         });
     });

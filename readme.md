@@ -1,10 +1,8 @@
-tiny-lr
--------
+# tiny-lr [![Build Status](https://travis-ci.org/mklabs/tiny-lr.svg?branch=master)](https://travis-ci.org/mklabs/tiny-lr)
 
 This script manages a tiny [LiveReload](http://livereload.com/) server
 implementation.
 
-[![Build Status](https://travis-ci.org/mklabs/tiny-lr.svg?branch=master)](https://travis-ci.org/mklabs/tiny-lr)
 [![NPM](https://nodei.co/npm/tiny-lr.png?compact=true)](https://nodei.co/npm/tiny-lr/)
 
 It exposes an HTTP server and express middleware, with a very basic REST
@@ -29,6 +27,10 @@ connected.
 Or you can bulk the information into a POST request, with body as a JSON array of files.
 
     curl -X POST http://localhost:35729/changed -d '{ "files": ["style.css", "app.js"] }'
+
+    # from a JSON file
+    node -pe 'JSON.stringify({ files: ["some.css", "files.css"] })' > files.json
+    curl -X POST -d @files.json http://localhost:35729
 
 As for the livereload client, you need to install the browser extension:
 http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-
