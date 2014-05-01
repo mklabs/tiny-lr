@@ -1,6 +1,6 @@
 {
   "author": "mklabs",
-  "name": "tiny-lr",
+  "name": "tiny-lr-fork",
   "description": "Tiny LiveReload server, background-friendly",
   "version": "0.0.5",
   "homepage": "https://github.com/mklabs/tiny-lr",
@@ -18,7 +18,7 @@
   "dependencies": {
     "qs": "~0.5.2",
     "faye-websocket": "~0.4.3",
-    "noptify": "latest",
+    "noptify": "~0.0.3",
     "debug": "~0.7.0"
   },
   "devDependencies": {
