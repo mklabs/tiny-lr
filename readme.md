@@ -2,25 +2,19 @@ tiny-lr
 -------
 
 This script manages a tiny [LiveReload](http://livereload.com/) server
-implementation you can spawn in the background.
+implementation.
 
-It exposes:
+[![Build Status](https://travis-ci.org/mklabs/tiny-lr.svg?branch=master)](https://travis-ci.org/mklabs/tiny-lr)
+[![NPM](https://nodei.co/npm/tiny-lr.png?compact=true)](https://nodei.co/npm/tiny-lr/)
 
-- a background-friendly bin wrapper (thanks to
-  [@FGRibreau](https://github.com/FGRibreau) [pid.js
-  gist](https://gist.github.com/1846952))
-
-- [Grunt tasks](https://github.com/mklabs/tiny-lr#using-grunt) to start the server and trigger reload notification. Every task
-  name is prefixed by `tinylr-`.
-
-- [Generic targets](https://github.com/mklabs/tiny-lr#using-make) to include in
-  your Makefile (`include node_modules/tiny-lr/tasks/tiny-lr.mk`)
+It exposes an HTTP server and express middleware, with a very basic REST
+Api to notify the server of a particular change.
 
 It doesn't have any watch ability, it must be done at the build process or
 application level.
 
 Instead, it exposes a very simple API to notify the server that some
-changes have been made, that is then broadcasted to every livereload client
+changes have been made, then broadcasted to every livereload client
 connected.
 
     # notify a single change
@@ -135,37 +129,11 @@ other listening on the LiveReload port. Check the
 
 ### Using grunt
 
-This package exposes a `tasks/` directory, that you can use within your Gruntfile with:
-
-```js
-grunt.loadNpmTasks('tiny-lr');
-```
-
-- tinylr-start    - Starts a new tiny-lr Server, with the provided port.
-- tinylr-reload   - Sends a reload notification to the previously started server.
-
-`tinylr-start` should be used with the `watch` task, probably with an alias
-that triggers both `tinylr-start watch` tasks.
-
-`tinylr-reload` should be configured as a "watch" task in your Gruntfile.
-
-```js
-grunt.initConfig({
-  watch: {
-    reload: {
-      files: ['**/*.html', '**/*.js', '**/*.css', '**/*.{png,jpg}'],
-      tasks: 'tinylr-reload'
-    }
-  }
-});
-
-grunt.registerTask('reload', ['tinylr-start', 'watch']);
-```
-
+Head over to [https://github.com/gruntjs/grunt-contrib-watch](https://github.com/gruntjs/grunt-contrib-watch#live-reloading)
 
 ### Using make
 
-See `tasks/tiny-lr.mk`.
+See `examples/tinylr.mk`.
 
 Include this file into your project Makefile to bring in the following targets:
 
@@ -181,11 +149,11 @@ CSS_DIR = app/styles
 CSS_FILES = $(shell find $(CSS_DIR) -name '*.css')
 
 # include the livereload targets
-include node_modules/tiny-lr/tasks/*.mk
+include node_modules/examples/tinylr.mk
 
 $(CSS_DIR): $(CSS_FILES)
   @echo CSS files changed: $?
-    @touch $@
+  @touch $@
   curl -X POST http://localhost:35729/changed -d '{ "files": "$?" }'
 
 reload-css: livereload $(CSS_DIR)
@@ -197,8 +165,7 @@ The pattern is always the same:
 
 - define a target for your root directory that triggers a POST request
 - `touch` the directory to update its mtime
-- add reload target with `livereload` and the list of files to "watch" as
-  prerequisites
+- add reload target with `livereload` and the list of files to "watch" as prerequisites
 
 You can chain multiple "reload" targets in a single one:
 
@@ -216,7 +183,6 @@ you have a livereload environment.
 
 The `-q` flag only outputs STDERR, you can in your Makefile redirect the
 output of your commands to `>&2` to see them in `watch -q` mode.
-
 
 ## Tests
 
@@ -378,8 +344,20 @@ request(server)
   });
 ```
 
+## Thanks!
+
+- Tiny-lr is a [LiveReload](http://livereload.com/) implementation. They
+  really made frontend editing better for a lot of us. They have a
+  [LiveReload App on the Mac App Store](https://itunes.apple.com/us/app/livereload/id482898991)
+  you might want to check out.
+
+- To all [contributors](https://github.com/mklabs/tiny-lr/graphs/contributors)
+
+- [@FGRibreau](https://github.com/FGRibreau) / [pid.js gist](https://gist.github.com/1846952)) for the background friendly bin wrapper
+
 ---
 
+- 2014-05-01 - v0.0.6 - #41 - Sync with lastest changes from tiny-lr fork / Cleanup code from tasks / examples. See https://github.com/gruntjs/grunt-contrib-watch for grunt integration.
 - 2013-01-21 - v0.0.5 - [PR #18](https://github.com/mklabs/tiny-lr/pull/18) / [PR #21](https://github.com/mklabs/tiny-lr/pull/21) - https support / expose reload flags through options
 - 2013-01-21 - v0.0.4 - middleware support
 - 2013-01-20 - v0.0.3 - serve livereload from repo (#4)
