@@ -133,7 +133,7 @@ Head over to [https://github.com/gruntjs/grunt-contrib-watch](https://github.com
 
 ### Using make
 
-See `examples/tinylr.mk`.
+See [`tinylr.mk`](./tinylr.mk) file.
 
 Include this file into your project Makefile to bring in the following targets:
 
@@ -149,7 +149,7 @@ CSS_DIR = app/styles
 CSS_FILES = $(shell find $(CSS_DIR) -name '*.css')
 
 # include the livereload targets
-include node_modules/examples/tinylr.mk
+include node_modules/tiny-lr/tinylr.mk
 
 $(CSS_DIR): $(CSS_FILES)
   @echo CSS files changed: $?
