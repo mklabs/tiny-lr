@@ -1,5 +1,6 @@
 var port = process.env.LR_PORT || process.env.PORT || 35729;
 
+var fs      = require('fs');
 var path    = require('path');
 var express = require('express');
 var tinylr  = require('../..');
@@ -18,6 +19,32 @@ function logger(fmt) {
     next();
   }
 }
+
+function throttle(delay, fn) {
+  var now = Date.now();
+
+  return function() {
+    var from = Date.now();
+    var interval = from - now;
+    if (interval < delay) return;
+    now = from;
+    fn.apply(this, arguments);
+  };
+}
+
+var watch = (function watch(em) {
+  em = em || new (require('events').EventEmitter)();
+
+  em.on('rename', function(file) {
+    tinylr.changed(file);
+  });
+
+  fs.watch(path.join(__dirname, 'styles/site.css'), throttle(200, function(ev, filename) {
+    em.emit(ev, filename);
+  }));
+
+  return watch;
+})();
 
 app
   .use(logger())
