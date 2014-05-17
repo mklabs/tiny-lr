@@ -13,7 +13,9 @@
     "prepublish:": "npm test",
     "test": "mocha --reporter list",
     "test-debug": "DEBUG=tinylr:* mocha --reporter list",
-    "test-debug-all": "DEBUG=* mocha --reporter list"
+    "test-debug-all": "DEBUG=* mocha --reporter list",
+    "phantom-start": "sh scripts/phantom-start",
+    "phantom-stop": "sh scripts/phantom-stop"
   },
   "dependencies": {
     "qs": "^0.5.6",
@@ -27,7 +29,8 @@
     "supertest": "^0.12.0",
     "express": "^4.1.1",
     "connect": "^2.14.5",
-    "body-parser": "^1.0.2"
+    "body-parser": "^1.0.2",
+    "phantomjs": "^1.9.7-5"
   },
   "config": {
     "test_port": "9001"
