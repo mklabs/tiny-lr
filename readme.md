@@ -97,22 +97,31 @@ This will close any websocket connection established and emit a close event.
 ### Middleware
 
 To use as a connect / express middleware, tiny-lr needs query /
-bodyParse middlewares prior in the stack.
+bodyParser middlewares prior in the stack (to handle POST requests)
 
 Any handled requests ends at the tinylr level, not found and errors are
 nexted to the rest of the stack.
 
 ```js
-// This binds both express app and tinylr on the same port
+var port = process.env.LR_PORT || process.env.PORT || 35729;
+
+var path    = require('path');
+var express = require('express');
+var tinylr  = require('tiny-lr');
+var body    = require('body-parser');
+
 var app = express();
-app.use(express.query())
-  .use(express.bodyParser())
+
+// This binds both express app and tinylr on the same port
+
+
+app
+  .use(body())
   .use(tinylr.middleware({ app: app }))
   .use(express.static(path.resolve('./')))
-  .use(express.directory(path.resolve('./')))
-  .listen(35729, function() {
-    console.log('Listening on %d', 35729);
-  })
+  .listen(port, function() {
+    console.log('listening on %d', port);
+  });
 ```
 
 The port you listen on is important, and tinylr should **always** listen on
@@ -121,8 +130,7 @@ on the browser extensions, though you can still use the manual snippet
 approach.
 
 You can also start two different servers, one on your app port, the
-other listening on the LiveReload port. Check the
-`examples/express/server.js` file to see how.
+other listening on the LiveReload port.
 
 ### Using grunt
 

@@ -15,7 +15,10 @@
     "test-debug": "DEBUG=tinylr:* mocha --reporter list",
     "test-debug-all": "DEBUG=* mocha --reporter list",
     "phantom-start": "sh scripts/phantom-start",
-    "phantom-stop": "sh scripts/phantom-stop"
+    "phantom-stop": "sh scripts/phantom-stop",
+    "serve": "node examples/express/server.js",
+    "post-change": "sh scripts/post-change",
+    "get-change": "curl http://localhost:35729/changed?files=site.css"
   },
   "dependencies": {
     "qs": "^0.5.6",
