@@ -4,6 +4,7 @@ var request = require('supertest');
 
 module.exports = function listen(opts) {
   opts = opts || {};
+
   return function _listen(done) {
     this.app = new Server();
     var srv = this.server = this.app.server;

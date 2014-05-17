@@ -63,6 +63,7 @@ describe('tiny-lr', function() {
 
       request(this.server)
         .post('/changed')
+        // .type('json')
         .send({ files: data.files })
         .expect('Content-Type', /json/)
         .expect(JSON.stringify(data))
@@ -85,7 +86,6 @@ describe('tiny-lr', function() {
       request(srv)
         .get('/kill')
         .expect(200, function(err) {
-          console.log('err');
           if(err) return done(err);
           assert.ok(!srv._handle);
           done();

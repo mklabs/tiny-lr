@@ -105,16 +105,12 @@ function suite(name, app) {return function() {
     });
   });
 
-  describe.skip('GET /kill', function() {
+  describe('GET /kill', function() {
     it('shutdown the server', function(done) {
       var server = this.server;
       request(server)
         .get('/kill')
-        .expect(200, function(err) {
-          if(err) return done(err);
-          assert.ok(!server._handle);
-          done();
-        });
+        .expect(200, done);
     });
   });
 

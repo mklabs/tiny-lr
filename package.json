@@ -24,7 +24,9 @@
     "qs": "^0.5.6",
     "faye-websocket": "^0.4.4",
     "noptify": "~0.0.3",
-    "debug": "^0.8.1"
+    "debug": "^0.8.1",
+    "body-parser": "^1.2.0",
+    "parseurl": "^1.0.1"
   },
   "devDependencies": {
     "mocha": "^1.18.2",
