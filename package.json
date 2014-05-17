@@ -11,9 +11,13 @@
   "main": "./lib",
   "scripts": {
     "prepublish:": "npm test",
-    "test": "mocha --reporter list",
+    "test": "mocha --reporter spec test/wd test",
     "test-debug": "DEBUG=tinylr:* mocha --reporter list",
     "test-debug-all": "DEBUG=* mocha --reporter list",
+
+    "pretest": "npm run phantom-start",
+    "posttest": "npm run phantom-stop",
+
     "phantom-start": "sh scripts/phantom-start",
     "phantom-stop": "sh scripts/phantom-stop",
     "serve": "node examples/express/server.js",
@@ -35,7 +39,8 @@
     "express": "^4.1.1",
     "connect": "^2.14.5",
     "body-parser": "^1.0.2",
-    "phantomjs": "^1.9.7-5"
+    "phantomjs": "^1.9.7-5",
+    "wd": "^0.2.21"
   },
   "config": {
     "test_port": "9001"
