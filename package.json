@@ -25,8 +25,8 @@
     "get-change": "curl http://localhost:35729/changed?files=site.css"
   },
   "dependencies": {
-    "qs": "^0.5.6",
-    "faye-websocket": "^0.4.4",
+    "qs": "^0.6.6",
+    "faye-websocket": "^0.7.2",
     "noptify": "~0.0.3",
     "debug": "^0.8.1",
     "body-parser": "^1.2.0",
