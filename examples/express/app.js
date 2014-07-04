@@ -2,7 +2,6 @@ var fs      = require('fs');
 var path    = require('path');
 var express = require('express');
 var tinylr  = require('../..');
-var body    = require('body-parser');
 var debug   = require('debug')('tinylr:server');
 
 process.env.DEBUG = process.env.DEBUG || 'tinylr*';
@@ -46,6 +45,5 @@ var watch = (function watch(em) {
 
 app
   .use(logger())
-  .use(body())
   .use('/', express.static(path.join(__dirname)))
   .use(tinylr.middleware({ app: app }));

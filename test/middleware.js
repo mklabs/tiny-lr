@@ -5,7 +5,6 @@ var connect    = require('connect');
 var express    = require('express');
 var request    = require('supertest');
 var debug      = require('debug')('tinylr:test');
-var bodyParser = require('body-parser');
 var Server     = require('..').Server;
 
 var npmenv = process.env;
@@ -23,7 +22,6 @@ function suite(name, app) {return function() {
     this.lr = new Server();
 
     this.app
-      .use(bodyParser())
       .use(this.lr.handler.bind(this.lr));
 
     this.server = http.createServer(this.app);
