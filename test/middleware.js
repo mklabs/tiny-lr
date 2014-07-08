@@ -46,7 +46,7 @@ function suite(name, app) {return function() {
     it('unknown route are noop with middlewares, next-ing', function(done){
       request(this.server)
         .get('/whatev')
-        .expect('Content-Type', 'text/html')
+        .expect('Content-Type', /text\/html/)
         .expect(/Cannot GET \/whatev/)
         .expect(404, done);
     });
