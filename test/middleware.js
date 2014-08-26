@@ -39,7 +39,7 @@ function suite(name, app) {return function() {
       request(this.server)
         .get('/')
         .expect('Content-Type', /json/)
-        .expect(/\{"tinylr":"Welcome","version":"0.0.[\d]+"\}/)
+        .expect(/\{"tinylr":"Welcome","version":"[\d].[\d].[\d]+"\}/)
         .expect(200, done);
     });
 
