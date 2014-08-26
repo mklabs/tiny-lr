@@ -2,7 +2,7 @@
   "author": "mklabs",
   "name": "tiny-lr",
   "description": "Tiny LiveReload server, background-friendly",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/mklabs/tiny-lr",
   "bugs": "https://github.com/mklabs/tiny-lr/issues",
   "repository": {
