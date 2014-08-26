@@ -4,7 +4,9 @@
   "description": "Tiny LiveReload server, background-friendly",
   "version": "0.0.9",
   "homepage": "https://github.com/mklabs/tiny-lr",
+  "bugs": "https://github.com/mklabs/tiny-lr/issues",
   "repository": {
+    "type": "git",
     "url": "git://github.com/mklabs/tiny-lr.git"
   },
   "bin": "./bin/tiny-lr",
@@ -23,21 +25,21 @@
     "get-change": "curl http://localhost:35729/changed?files=site.css"
   },
   "dependencies": {
-    "qs": "^0.6.6",
-    "faye-websocket": "^0.7.2",
-    "noptify": "~0.0.3",
-    "debug": "^0.8.1",
     "body-parser": "^1.2.0",
-    "parseurl": "^1.0.1"
+    "debug": "^0.8.1",
+    "faye-websocket": "^0.7.2",
+    "noptify": "^0.0.3",
+    "parseurl": "^1.0.1",
+    "qs": "^1.0.0"
   },
   "devDependencies": {
+    "body-parser": "^1.0.2",
+    "connect": "^2.14.5",
+    "express": "^4.1.1",
     "mocha": "^1.18.2",
+    "phantomjs": "^1.9.7-5",
     "request": "^2.34.0",
     "supertest": "^0.12.0",
-    "express": "^4.1.1",
-    "connect": "^2.14.5",
-    "body-parser": "^1.0.2",
-    "phantomjs": "^1.9.7-5",
     "wd": "^0.2.21"
   },
   "config": {
