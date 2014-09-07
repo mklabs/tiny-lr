@@ -25,11 +25,11 @@
     "get-change": "curl http://localhost:35729/changed?files=site.css"
   },
   "dependencies": {
-    "body-parser": "^1.2.0",
-    "debug": "^0.8.1",
-    "faye-websocket": "^0.7.2",
-    "parseurl": "^1.0.1",
-    "qs": "^1.0.0"
+    "body-parser": "~1.8.0",
+    "debug": "~0.8.1",
+    "faye-websocket": "~0.7.2",
+    "parseurl": "~1.3.0",
+    "qs": "~2.2.3"
   },
   "devDependencies": {
     "body-parser": "^1.0.2",
