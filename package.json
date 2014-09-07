@@ -28,7 +28,6 @@
     "body-parser": "^1.2.0",
     "debug": "^0.8.1",
     "faye-websocket": "^0.7.2",
-    "noptify": "^0.0.3",
     "parseurl": "^1.0.1",
     "qs": "^1.0.0"
   },
