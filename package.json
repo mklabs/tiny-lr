@@ -9,7 +9,6 @@
     "type": "git",
     "url": "git://github.com/mklabs/tiny-lr.git"
   },
-  "bin": "./bin/tiny-lr",
   "main": "./lib",
   "scripts": {
     "prepublish:": "npm test",
