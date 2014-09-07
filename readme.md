@@ -43,25 +43,8 @@ http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-scr
 
 ## Integration
 
-This package exposes a `bin` you can decide to install globally, but it's not recommended.
-
-    tiny-lr --help
-
-    Usage: tiny-lr [options]
-
-    Options:
-      -h, --help        - Show help usage
-      -v, --version     - Show package version
-      -p, --port        - Port to listen on (default: 35729)
-      --pid             - Path to the generated PID file (default: ./tiny-lr.pid)
-
-
 The best way to integrate the runner in your workflow is to add it as a `reload`
-step within your build tool. This build tool can then use the internal binary
-linked by npm in `node_modules/.bin/tiny-lr` to not rely on global installs (or
-use the server programmtically).
-
-You can start the server using the binary provided, or use your own start script.
+step within your build tool.
 
 ```js
 var tinylr = require('tiny-lr');
@@ -138,56 +121,11 @@ Head over to [https://github.com/gruntjs/grunt-contrib-watch](https://github.com
 
 ### Using make
 
-See [`tinylr.mk`](./tinylr.mk) file.
+See [make-livereload](https://github.com/mklabs/make-livereload) repo.
 
-Include this file into your project Makefile to bring in the following targets:
+### Using gulp
 
-- start 						- Start the LiveReload server
-- stop 							- Stops the LiveReload server
-- livereload 				- alias to start
-- livereload-stop 	- aias to stop
-
-Then define your "empty" targets, and the list of files you want to monitor.
-
-```make
-CSS_DIR = app/styles
-CSS_FILES = $(shell find $(CSS_DIR) -name '*.css')
-
-# include the livereload targets
-include node_modules/tiny-lr/tinylr.mk
-
-$(CSS_DIR): $(CSS_FILES)
-  @echo CSS files changed: $?
-  @touch $@
-  curl -X POST http://localhost:35729/changed -d '{ "files": "$?" }'
-
-reload-css: livereload $(CSS_DIR)
-
-.PHONY: reload-css
-```
-
-The pattern is always the same:
-
-- define a target for your root directory that triggers a POST request
-- `touch` the directory to update its mtime
-- add reload target with `livereload` and the list of files to "watch" as prerequisites
-
-You can chain multiple "reload" targets in a single one:
-
-```make
-reload: reload-js reload-css reload-img reload-EVERYTHING
-```
-
-Combine this with [visionmedia/watch](https://github.com/visionmedia/watch) and
-you have a livereload environment.
-
-    watch make reload
-
-    # add a -q flag to the watch command to suppress most of the annoying output
-    watch -q reload
-
-The `-q` flag only outputs STDERR, you can in your Makefile redirect the
-output of your commands to `>&2` to see them in `watch -q` mode.
+See [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
 
 ## Tests
 
@@ -358,13 +296,6 @@ request(server)
 
 - To all [contributors](https://github.com/mklabs/tiny-lr/graphs/contributors)
 
-- [@FGRibreau](https://github.com/FGRibreau) / [pid.js gist](https://gist.github.com/1846952)) for the background friendly bin wrapper
-
----
-
-- 2014-05-01 - v0.0.6 - #41 - Sync with lastest changes from tiny-lr fork / Cleanup code from tasks / examples. See https://github.com/gruntjs/grunt-contrib-watch for grunt integration.
-- 2013-01-21 - v0.0.5 - [PR #18](https://github.com/mklabs/tiny-lr/pull/18) / [PR #21](https://github.com/mklabs/tiny-lr/pull/21) - https support / expose reload flags through options
-- 2013-01-21 - v0.0.4 - middleware support
-- 2013-01-20 - v0.0.3 - serve livereload from repo (#4)
-- 2013-01-12 - v0.0.2 - tasks - support for grunt 0.3.x (#1)
-- 2013-01-05 - v0.0.1 - Initial release
+- [@FGRibreau](https://github.com/FGRibreau) / [pid.js
+  gist](https://gist.github.com/1846952)) for the background friendly
+bin wrapper, used in [make-livereload](https://github.com/mklabs/make-livereload)
