@@ -122,6 +122,20 @@ Head over to [https://github.com/gruntjs/grunt-contrib-watch](https://github.com
 ### Using make
 
 See [make-livereload](https://github.com/mklabs/make-livereload) repo.
+This repository defines a bin wrapper you can use and install with:
+
+    npm install make-livereload -g
+
+It bundles the same bin wrapper previously used in tiny-lr repo.
+
+    Usage: tiny-lr [options]
+
+    Options:
+
+      -h, --help     output usage information
+      -V, --version  output the version number
+      port           -p
+      pid            Path to the generated PID file (default: ./tiny-lr.pid)
 
 ### Using gulp
 
