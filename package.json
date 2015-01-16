@@ -27,6 +27,7 @@
     "body-parser": "~1.8.0",
     "debug": "~2.0.0",
     "faye-websocket": "~0.7.2",
+    "livereload-js": "^2.2.0",
     "parseurl": "~1.3.0",
     "qs": "~2.2.3"
   },
