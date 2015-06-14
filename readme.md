@@ -115,6 +115,19 @@ approach.
 You can also start two different servers, one on your app port, the
 other listening on the LiveReload port.
 
+### Options
+
+- `livereload`    - Path to the client side lib (defaults to `path.join(__dirname, '../node_modules/livereload-js/dist/livereload.js')`)
+- `port`          - Livereload port (defaults to `35729`)
+- `errorListener` - A callback to invoke when an error occurs (otherwise, fallbacks to standard error output)
+- `app`           - An express or other middleware based HTTP server
+- `key`           - Option to pass in to create an https server
+- `cert`          - Option to pass in to create an https server
+- `pfx`           - Can also be used to create an https server instead of `key` & `cert`
+- `liveCSS`       - LiveReload option to enable live CSS reloading (defaults to true)
+- `liveJs`        - LiveReload option to enable live JS reloading (defaults to true)
+- `liveImg`       - LiveReload option to enable live images reloading (defaults to true)
+
 ### Using grunt
 
 Head over to [https://github.com/gruntjs/grunt-contrib-watch](https://github.com/gruntjs/grunt-contrib-watch#live-reloading)
