@@ -3,7 +3,7 @@
 This script manages a tiny [LiveReload](http://livereload.com/) server
 implementation.
 
-[![NPM](https://nodei.co/npm/tiny-lr.png?compact=true)](https://nodei.co/npm/tiny-lr/)
+[![NPM](https://nodei.co/npm/tiny-lr.png?downloads=true&stars=true)](https://nodei.co/npm/tiny-lr/)
 
 It exposes an HTTP server and express middleware, with a very basic REST
 Api to notify the server of a particular change.
@@ -115,19 +115,6 @@ approach.
 You can also start two different servers, one on your app port, the
 other listening on the LiveReload port.
 
-### Options
-
-- `livereload`    - Path to the client side lib (defaults to `path.join(__dirname, '../node_modules/livereload-js/dist/livereload.js')`)
-- `port`          - Livereload port (defaults to `35729`)
-- `errorListener` - A callback to invoke when an error occurs (otherwise, fallbacks to standard error output)
-- `app`           - An express or other middleware based HTTP server
-- `key`           - Option to pass in to create an https server
-- `cert`          - Option to pass in to create an https server
-- `pfx`           - Can also be used to create an https server instead of `key` & `cert`
-- `liveCSS`       - LiveReload option to enable live CSS reloading (defaults to true)
-- `liveJs`        - LiveReload option to enable live JS reloading (defaults to true)
-- `liveImg`       - LiveReload option to enable live images reloading (defaults to true)
-
 ### Using grunt
 
 Head over to [https://github.com/gruntjs/grunt-contrib-watch](https://github.com/gruntjs/grunt-contrib-watch#live-reloading)
@@ -153,6 +140,19 @@ It bundles the same bin wrapper previously used in tiny-lr repo.
 ### Using gulp
 
 See [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
+
+## Options
+
+- `livereload`    - Path to the client side lib (defaults to `path.join(__dirname, '../node_modules/livereload-js/dist/livereload.js')`)
+- `port`          - Livereload port (defaults to `35729`)
+- `errorListener` - A callback to invoke when an error occurs (otherwise, fallbacks to standard error output)
+- `app`           - An express or other middleware based HTTP server
+- `key`           - Option to pass in to create an https server
+- `cert`          - Option to pass in to create an https server
+- `pfx`           - Can also be used to create an https server instead of `key` & `cert`
+- `liveCSS`       - LiveReload option to enable live CSS reloading (defaults to true)
+- `liveJs`        - LiveReload option to enable live JS reloading (defaults to true)
+- `liveImg`       - LiveReload option to enable live images reloading (defaults to true)
 
 ## Tests
 
