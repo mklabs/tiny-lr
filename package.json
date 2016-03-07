@@ -29,7 +29,7 @@
     "faye-websocket": "~0.10.0",
     "livereload-js": "^2.2.0",
     "parseurl": "~1.3.0",
-    "qs": "~5.1.0"
+    "qs": "~6.1.0"
   },
   "devDependencies": {
     "connect": "^3.4.0",
