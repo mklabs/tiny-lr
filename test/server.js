@@ -71,6 +71,28 @@ describe('tiny-lr', function() {
     });
   });
 
+  describe('POST /alert', function() {
+    it('with no clients, no message', function(done) {
+      var data = { clients: [] };
+      request(this.server)
+        .post('/alert')
+        .expect('Content-Type', /json/)
+        .expect(JSON.stringify(data))
+        .expect(200, done);
+    });
+
+    it('with no clients, some message', function(done) {
+      var message = 'Hello Client!';
+      var data = { clients: [], message: message };
+      request(this.server)
+        .post('/alert')
+        .send({ message: message })
+        .expect('Content-Type', /json/)
+        .expect(JSON.stringify(data))
+        .expect(200, done);
+    });
+  });
+ 
   describe('GET /livereload.js', function() {
     it('respond with livereload script', function(done) {
       request(this.server)
