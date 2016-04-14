@@ -146,6 +146,8 @@ See [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
 - `livereload`    - Path to the client side lib (defaults to `path.join(__dirname, '../node_modules/livereload-js/dist/livereload.js')`)
 - `port`          - Livereload port (defaults to `35729`)
 - `errorListener` - A callback to invoke when an error occurs (otherwise, fallbacks to standard error output)
+- `handler`       - A function to use as main request handler (`function(req,
+  res)`). When not defined, the default handler takes place.
 - `app`           - An express or other middleware based HTTP server
 - `key`           - Option to pass in to create an https server
 - `cert`          - Option to pass in to create an https server
