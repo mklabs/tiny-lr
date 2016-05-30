@@ -7,7 +7,6 @@ var Server     = require('..').Server;
 
 var port = parseInt(process.env.npm_package_config_test_port || 0, 10);
 
-// describe('Connect Middleware', suite('Connect Middleware', connect()));
 describe('Express Middleware', () => {
   before(function () {
     this.app = express();
