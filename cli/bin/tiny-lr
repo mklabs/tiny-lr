@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+
+// Thanks to @FGRibreau for his very simple and very handy gist:
+// https://gist.github.com/1846952
+
+process.env.DEBUG = process.env.DEBUG || 'tinylr*';
+const debug = require('debug')('tinylr:cli');
+const fs   = require('fs');
+const path = require('path');
+
+require('babel-register')();
+
+const CLI = require('../lib/cli');
+let cli = new CLI(require('minimist'));
+
+var Server = require('../..').Server;
+process.title = 'tiny-lr';
+
+process.on('exit', function() {
+  debug('... Closing server and removing PID file ...');
+  // remove PID file and catch if unable to delete
+  // must use unlinkSync because process exit must be synchronous
+  try {
+    fs.unlinkSync(cli.options.pid);
+  } catch (e) {
+    debug('... Unable to remove PID file (%s) ...', e.message);
+  }
+});
+
+process.on('SIGTERM', function() {
+  return process.exit(0);
+});
+
+process.on('SIGINT', function() {
+  return process.exit(0);
+});
+
+var srv = new Server(cli.options);
+
+srv.on('close', function() {
+  process.nextTick(function() {
+    process.exit();
+  });
+});
+
+srv.listen(cli.options.port, function(err) {
+  fs.writeFile(cli.options.pid, process.pid, function(err) {
+    if(err) {
+      debug('... Cannot write pid file: %s', cli.options.pid);
+      process.exit(1)
+    }
+
+    debug('... Listening on %s (pid: %s) ...', cli.options.port, process.pid);
+    debug('... pid file: %s', cli.options.pid);
+  });
+});
