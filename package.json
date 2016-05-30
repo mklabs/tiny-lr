@@ -1,27 +1,38 @@
 {
-  "author": "mklabs",
   "name": "tiny-lr",
-  "description": "Tiny LiveReload server, background-friendly",
   "version": "0.2.1",
+  "description": "Tiny LiveReload server, background-friendly",
+  "main": "./lib",
+  "scripts": {
+    "start": "bake test",
+    "test": "mocha --reporter spec test/wd test"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-regenerator": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "bake-cli": "^0.1.6",
+    "connect": "^3.4.0",
+    "eslint": "^2.10.2",
+    "eslint-config-standard": "^5.3.1",
+    "eslint-plugin-promise": "^1.1.0",
+    "eslint-plugin-standard": "^1.3.2",
+    "express": "^4.1.1",
+    "mocha": "^2.3.3",
+    "phantomjs": "^1.9.7-5",
+    "request": "^2.34.0",
+    "standard-version": "^2.2.1",
+    "supertest": "^1.2.0",
+    "watchd": "github:mklabs/watchd",
+    "wd": "^0.3.12"
+  },
+  "author": "mklabs",
   "homepage": "https://github.com/mklabs/tiny-lr",
   "bugs": "https://github.com/mklabs/tiny-lr/issues",
   "repository": {
     "type": "git",
     "url": "git://github.com/mklabs/tiny-lr.git"
-  },
-  "main": "./lib",
-  "scripts": {
-    "prepublish:": "npm test",
-    "test": "mocha --reporter spec test/wd test",
-    "test-debug": "DEBUG=tinylr:* mocha --reporter list",
-    "test-debug-all": "DEBUG=* mocha --reporter list",
-    "pretest": "npm run phantom-start",
-    "posttest": "npm run phantom-stop",
-    "phantom-start": "sh scripts/phantom-start",
-    "phantom-stop": "sh scripts/phantom-stop",
-    "serve": "node examples/express/server.js",
-    "post-change": "sh scripts/post-change",
-    "get-change": "curl http://localhost:35729/changed?files=site.css"
   },
   "dependencies": {
     "body-parser": "~1.14.0",
@@ -30,15 +41,6 @@
     "livereload-js": "^2.2.0",
     "parseurl": "~1.3.0",
     "qs": "~6.1.0"
-  },
-  "devDependencies": {
-    "connect": "^3.4.0",
-    "express": "^4.1.1",
-    "mocha": "^2.3.3",
-    "phantomjs": "^1.9.7-5",
-    "request": "^2.34.0",
-    "supertest": "^1.1.0",
-    "wd": "^0.3.12"
   },
   "config": {
     "test_port": "9001"
