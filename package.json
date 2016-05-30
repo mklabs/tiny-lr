@@ -2,7 +2,7 @@
   "name": "tiny-lr",
   "version": "0.2.1",
   "description": "Tiny LiveReload server, background-friendly",
-  "main": "./lib",
+  "main": "./src",
   "scripts": {
     "start": "bake test",
     "test": "mocha --reporter spec test/wd test"
