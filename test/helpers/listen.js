@@ -2,10 +2,10 @@
 var Server = require('../..').Server;
 var request = require('supertest');
 
-module.exports = function listen(opts) {
+module.exports = function listen (opts) {
   opts = opts || {};
 
-  return function _listen(done) {
+  return function _listen (done) {
     this.app = new Server();
     var srv = this.server = this.app.server;
     var ctx = this;

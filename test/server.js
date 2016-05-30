@@ -1,17 +1,12 @@
-
 var request = require('supertest');
 var assert  = require('assert');
+var listen  = require('./helpers/listen');
 
-var Server = require('..').Server;
-
-var listen = require('./helpers/listen');
-
-describe('tiny-lr', function() {
-
+describe('tiny-lr', function () {
   before(listen());
 
-  describe('GET /', function() {
-    it('respond with nothing, but respond', function(done){
+  describe('GET /', function () {
+    it('respond with nothing, but respond', function (done) {
       request(this.server)
         .get('/')
         .expect('Content-Type', /json/)
@@ -19,7 +14,7 @@ describe('tiny-lr', function() {
         .expect(200, done);
     });
 
-    it('unknown route respond with proper 404 and error message', function(done){
+    it('unknown route respond with proper 404 and error message', function (done) {
       request(this.server)
         .get('/whatev')
         .expect('Content-Type', /json/)
@@ -28,9 +23,8 @@ describe('tiny-lr', function() {
     });
   });
 
-
-  describe('GET /changed', function() {
-    it('with no clients, no files', function(done) {
+  describe('GET /changed', function () {
+    it('with no clients, no files', function (done) {
       request(this.server)
         .get('/changed')
         .expect('Content-Type', /json/)
@@ -39,7 +33,7 @@ describe('tiny-lr', function() {
         .expect(200, done);
     });
 
-    it('with no clients, some files', function(done) {
+    it('with no clients, some files', function (done) {
       request(this.server)
         .get('/changed?files=gonna.css,test.css,it.css')
         .expect('Content-Type', /json/)
@@ -48,8 +42,8 @@ describe('tiny-lr', function() {
     });
   });
 
-  describe('POST /changed', function() {
-    it('with no clients, no files', function(done) {
+  describe('POST /changed', function () {
+    it('with no clients, no files', function (done) {
       request(this.server)
         .post('/changed')
         .expect('Content-Type', /json/)
@@ -58,7 +52,7 @@ describe('tiny-lr', function() {
         .expect(200, done);
     });
 
-    it('with no clients, some files', function(done) {
+    it('with no clients, some files', function (done) {
       var data = { clients: [], files: ['cat.css', 'sed.css', 'ack.js'] };
 
       request(this.server)
@@ -71,8 +65,8 @@ describe('tiny-lr', function() {
     });
   });
 
-  describe('POST /alert', function() {
-    it('with no clients, no message', function(done) {
+  describe('POST /alert', function () {
+    it('with no clients, no message', function (done) {
       var data = { clients: [] };
       request(this.server)
         .post('/alert')
@@ -81,7 +75,7 @@ describe('tiny-lr', function() {
         .expect(200, done);
     });
 
-    it('with no clients, some message', function(done) {
+    it('with no clients, some message', function (done) {
       var message = 'Hello Client!';
       var data = { clients: [], message: message };
       request(this.server)
@@ -92,9 +86,9 @@ describe('tiny-lr', function() {
         .expect(200, done);
     });
   });
- 
-  describe('GET /livereload.js', function() {
-    it('respond with livereload script', function(done) {
+
+  describe('GET /livereload.js', function () {
+    it('respond with livereload script', function (done) {
       request(this.server)
         .get('/livereload.js')
         .expect(/LiveReload/)
@@ -102,17 +96,16 @@ describe('tiny-lr', function() {
     });
   });
 
-  describe('GET /kill', function() {
-    it('shutdown the server', function(done) {
+  describe('GET /kill', function () {
+    it('shutdown the server', function (done) {
       var srv = this.server;
       request(srv)
         .get('/kill')
-        .expect(200, function(err) {
-          if(err) return done(err);
+        .expect(200, function (err) {
+          if (err) return done(err);
           assert.ok(!srv._handle);
           done();
         });
     });
   });
-
 });
