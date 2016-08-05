@@ -23,6 +23,9 @@
     "post-change": "sh scripts/post-change",
     "get-change": "curl http://localhost:35729/changed?files=site.css"
   },
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "body-parser": "~1.14.0",
     "debug": "~2.2.0",
