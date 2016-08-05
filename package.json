@@ -7,6 +7,9 @@
     "start": "bake",
     "test": "bake test"
   },
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "body": "^5.1.0",
     "debug": "~2.2.0",
