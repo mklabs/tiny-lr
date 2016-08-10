@@ -172,8 +172,6 @@ See [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
      - [GET /kill](#tiny-lr-get-kill)
 <a name="" />
 
-<a name="tiny-lr" />
-# tiny-lr
 accepts ws clients.
 
 ```js
