@@ -13,7 +13,8 @@
   "dependencies": {
     "minimist": "^1.2.0",
     "roar-cli": "^0.2.1",
-    "tabtab": "^1.3.2"
+    "tabtab": "^1.3.2",
+    "tilt-assets": "0.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",

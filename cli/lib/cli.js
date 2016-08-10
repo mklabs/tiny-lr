@@ -1,6 +1,8 @@
-const fs   = require('path');
-const path = require('path');
-const roar = require('roar-cli');
+const fs     = require('fs');
+const path   = require('path');
+const roar   = require('roar-cli');
+const Server = require('../..');
+const debug  = require('debug')('tinylr:cli');
 
 export default class CLI extends roar.CLI {
   get example() {
@@ -45,5 +47,37 @@ export default class CLI extends roar.CLI {
 
     this.options.port = this.options.port || 3000;
     this.options.pid = this.options.pid || path.resolve('tiny-lr.pid');
+
+    this.server = this.createServer(this.options);
+  }
+
+  createServer (options = this.options) {
+    var srv = new Server(options);
+
+    srv.on('close', () => {
+      process.nextTick(() => process.exit());
+    });
+
+    return srv;
+  }
+
+  listen (done = () => {}) {
+    return this.server.listen(this.options.port, (err) => {
+      if (err) return this.error(err);
+      this.writePID(this.options, done);
+    });
+  }
+
+  writePID ({ port, pid }, done) {
+    fs.writeFile(pid, process.pid, (err) => {
+      if(err) {
+        debug('... Cannot write pid file: %s', pid);
+        process.exit(1)
+      }
+
+      debug('... Listening on %s (pid: %s) ...', port, process.pid);
+      debug('... pid file: %s', pid);
+      done();
+    });
   }
 }
