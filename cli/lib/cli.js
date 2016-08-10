@@ -5,11 +5,11 @@ const Server = require('../..');
 const debug  = require('debug')('tinylr:cli');
 
 export default class CLI extends roar.CLI {
-  get example() {
+  get example () {
     return 'tiny-lr [options]';
   }
 
-  get more() {
+  get more () {
     return `
   Examples:
 
@@ -20,7 +20,7 @@ export default class CLI extends roar.CLI {
   }
 
   // Used to parse arguments with minimist
-  get alias() {
+  get alias () {
     return {
       h: 'help',
       v: 'version',
@@ -31,7 +31,7 @@ export default class CLI extends roar.CLI {
   }
 
   // Used to generate the help output, along with example / more above
-  get flags() {
+  get flags () {
     return {
       help: 'Show this help output',
       version: 'Show package version'
@@ -70,9 +70,9 @@ export default class CLI extends roar.CLI {
 
   writePID ({ port, pid }, done) {
     fs.writeFile(pid, process.pid, (err) => {
-      if(err) {
+      if (err) {
         debug('... Cannot write pid file: %s', pid);
-        process.exit(1)
+        process.exit(1);
       }
 
       debug('... Listening on %s (pid: %s) ...', port, process.pid);

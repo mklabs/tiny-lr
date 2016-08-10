@@ -18,7 +18,7 @@ serve:
 	node examples/express/server.js
 
 eslint:
-	eslint .
+	eslint . --debug
 
 fix:
 	eslint . --fix
