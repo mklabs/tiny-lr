@@ -170,7 +170,6 @@ See [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
      - [POST /changed](#tiny-lr-post-changed)
      - [GET /livereload.js](#tiny-lr-get-livereloadjs)
      - [GET /kill](#tiny-lr-get-kill)
-<a name="" />
 
 accepts ws clients.
 
