@@ -10,7 +10,7 @@ fetch('/clients')
   })
   .then((json) => {
     // todo: only display current page if on dashboard
-    // json.clients.forEach(createClient);
+    json.clients.forEach(createClient);
 
     // Handle socketio events
     let socket = io('http://localhost:3000');
@@ -34,6 +34,8 @@ fetch('/clients')
   });
 
 function createClient(client) {
+  if (!client.url) return;
+
   let view = views[client.id] = new View({
     name: 'client-' + client.id,
     defaults: client
