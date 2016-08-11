@@ -3,6 +3,7 @@ const path   = require('path');
 const roar   = require('roar-cli');
 const Server = require('../..');
 const debug  = require('debug')('tinylr:cli');
+const assets = require('tilt-assets');
 
 export default class CLI extends roar.CLI {
   get example () {
@@ -49,10 +50,15 @@ export default class CLI extends roar.CLI {
     this.options.pid = this.options.pid || path.resolve('tiny-lr.pid');
     this.options.dashboard = true;
 
+    this.assets = assets({
+      dirs: path.join(__dirname, '../assets') + '/'
+    });
+
     this.server = this.createServer(this.options);
     this.server.on('GET /', this.index.bind(this));
     this.server.on('GET /dashboard', this.dashboard.bind(this));
     this.server.on('GET /clients', this.clients.bind(this));
+    this.server.on('GET /assets/index.js', this.dashboardJS.bind(this));
   }
 
   createServer (options = this.options) {
@@ -88,6 +94,10 @@ export default class CLI extends roar.CLI {
 
   dashboard(req, res) {
     fs.createReadStream(path.join(__dirname, '../public/index.html')).pipe(res);
+  }
+
+  dashboardJS(req, res) {
+    return this.assets.handle(req, res);
   }
 
   listen (done = () => {}) {

@@ -47,5 +47,14 @@
   "config": {
     "test_port": "9001"
   },
+
+  "browserify": {
+    "transform": [
+      ["babelify", { "presets": "es2015" }]
+    ],
+
+    "debug": true
+  },
+
   "license": "MIT"
 }
