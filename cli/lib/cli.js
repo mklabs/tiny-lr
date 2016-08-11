@@ -51,6 +51,7 @@ export default class CLI extends roar.CLI {
 
     this.server = this.createServer(this.options);
     this.server.on('GET /', this.index.bind(this));
+    this.server.on('GET /dashboard', this.dashboard.bind(this));
   }
 
   createServer (options = this.options) {
@@ -66,10 +67,14 @@ export default class CLI extends roar.CLI {
   index (req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.write(JSON.stringify({
-      tinylr: 'Welcome home'
+      tinylr: 'Welcome dashboard'
     }));
 
     res.end();
+  }
+
+  dashboard(req, res) {
+    fs.createReadStream(path.join(__dirname, '../public/index.html')).pipe(res);
   }
 
   listen (done = () => {}) {
