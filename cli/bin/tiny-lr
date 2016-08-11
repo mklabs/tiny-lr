@@ -1,15 +1,18 @@
 #!/usr/bin/env node
-require('babel-register')();
 process.title = 'tiny-lr';
 process.env.DEBUG = process.env.DEBUG || 'tinylr*';
+const debug = require('debug')('tinylr:cli');
 
-var fs    = require('fs');
-var path  = require('path');
-var debug = require('debug')('tinylr:cli');
-var CLI   = require('../lib/cli');
+// Have babel-register loaded after debug, otherwise cause issues with debug
+require('babel-register')();
+const fs    = require('fs');
+const path  = require('path');
+const CLI   = require('../lib/cli');
 
 let cli = new CLI(require('minimist'));
-cli.listen();
+cli.listen(() => {
+  debug('Listening on %d (env: %s)', cli.options.port, process.env.DEBUG);
+});
 
 process.on('exit', function() {
   debug('... Closing server and removing PID file ...');

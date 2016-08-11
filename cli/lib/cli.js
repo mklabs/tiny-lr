@@ -47,8 +47,10 @@ export default class CLI extends roar.CLI {
 
     this.options.port = this.options.port || 3000;
     this.options.pid = this.options.pid || path.resolve('tiny-lr.pid');
+    this.options.dashboard = true;
 
     this.server = this.createServer(this.options);
+    this.server.on('GET /', this.index.bind(this));
   }
 
   createServer (options = this.options) {
@@ -61,14 +63,25 @@ export default class CLI extends roar.CLI {
     return srv;
   }
 
+  index (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.write(JSON.stringify({
+      tinylr: 'Welcome home'
+    }));
+
+    res.end();
+  }
+
   listen (done = () => {}) {
     return this.server.listen(this.options.port, (err) => {
       if (err) return this.error(err);
+      // return done();
       this.writePID(this.options, done);
     });
   }
 
   writePID ({ port, pid }, done) {
+    debug('Writing pid file', pid, port);
     fs.writeFile(pid, process.pid, (err) => {
       if (err) {
         debug('... Cannot write pid file: %s', pid);

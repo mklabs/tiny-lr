@@ -155,6 +155,8 @@ See [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
 - `liveCSS`       - LiveReload option to enable live CSS reloading (defaults to true)
 - `liveJs`        - LiveReload option to enable live JS reloading (defaults to true)
 - `liveImg`       - LiveReload option to enable live images reloading (defaults to true)
+- `dashboard`     - A boolean to prevent tiny-lr from configuring a default
+  "home" route. Only used with the CLI (default: false)
 
 ## Tests
 
