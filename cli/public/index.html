@@ -53,5 +53,22 @@
 
   <!-- <script src="https://cdn.rawgit.com/livereload/livereload&#45;js/master/dist/livereload.js?port=3000&#38;host=localhost"></script> -->
   <script src="http://localhost:3000/livereload.js?port=3000"></script>
+  <script src="https://cdn.rawgit.com/github/fetch/master/fetch.js"></script>
+  <script>
+  (function() {
+    // Apply a small delay to let livereload.js send a message with client info
+    // todo: remove settimeout by listening to websocket message or any other
+    // means, maybe pooling
+    setTimeout(function() {
+      fetch('/clients')
+        .then(function(res) {
+          return res.json();
+        })
+        .then(function(json) {
+          console.log('json', json, json.clients[0]);
+        });
+    }, 500);
+  })();
+  </script>
 </body>
 </html>
