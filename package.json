@@ -3,6 +3,7 @@
   "version": "0.2.1",
   "description": "Tiny LiveReload server, background-friendly",
   "main": "./src",
+  "bin": "./cli/bin/tiny-lr",
   "scripts": {
     "start": "bake",
     "test": "bake test"
@@ -15,7 +16,10 @@
     "debug": "~2.2.0",
     "faye-websocket": "~0.10.0",
     "livereload-js": "^2.2.0",
-    "qs": "^6.2.0"
+    "qs": "^6.2.0",
+    "minimist": "^1.2.0",
+    "roar-cli": "^0.2.1",
+    "tilt-assets": "0.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
