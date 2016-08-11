@@ -1,6 +1,6 @@
 class View extends Yov {
 
-  template ({id, url}) {
+  template ({id, url = ''}) {
     return this.hx`
       <div class="dashboard-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--8-col-desktop">
         <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">

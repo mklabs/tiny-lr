@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 process.title = 'tiny-lr';
 process.env.DEBUG = process.env.DEBUG || 'tinylr*';
+
 const debug = require('debug')('tinylr:cli');
+const fs    = require('fs');
+const path  = require('path');
 
 // Have babel-register loaded after debug, otherwise cause issues with debug
 require('babel-register')();
-const fs    = require('fs');
-const path  = require('path');
-const CLI   = require('../lib/cli');
+const CLI = require('../lib/cli');
 
-let cli = new CLI(require('minimist'));
+let cli = new CLI(require('minimist'), require('socket.io'));
 cli.listen(() => {
   debug('Listening on %d (env: %s)', cli.options.port, process.env.DEBUG);
 });

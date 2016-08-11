@@ -1,9 +1,9 @@
-const fs     = require('fs');
-const path   = require('path');
-const roar   = require('roar-cli');
-const Server = require('../..');
-const debug  = require('debug')('tinylr:cli');
-const assets = require('tilt-assets');
+const fs       = require('fs');
+const path     = require('path');
+const Server   = require('../..');
+const debug    = require('debug')('tinylr:cli');
+const assets   = require('tilt-assets');
+const roar     = require('roar-cli');
 
 export default class CLI extends roar.CLI {
   get example () {
@@ -39,7 +39,7 @@ export default class CLI extends roar.CLI {
     };
   }
 
-  constructor (parser, options) {
+  constructor (parser, socketio, options) {
     super(parser, options);
 
     this.options = Object.assign({}, options, this.argv);
@@ -50,16 +50,26 @@ export default class CLI extends roar.CLI {
     this.options.pid = this.options.pid || path.resolve('tiny-lr.pid');
     this.options.dashboard = true;
 
+    // Setup asset pipeline
     this.assets = assets({
       dirs: path.join(__dirname, '../assets') + '/'
     });
 
+    // Setup server
     this.server = this.createServer(this.options);
+    // Routes
     this.server.on('GET /', this.index.bind(this));
+    this.server.on('GET /test', this.index.bind(this));
     this.server.on('GET /dashboard', this.dashboard.bind(this));
     this.server.on('GET /clients', this.clients.bind(this));
     this.server.on('GET /assets/index.js', this.dashboardAsset.bind(this));
     this.server.on('GET /assets/index.css', this.dashboardAsset.bind(this));
+    // Messages
+    this.server.on('MSG /destroy', this.clientDestroyed.bind(this));
+    this.server.on('MSG /create', this.clientCreated.bind(this));
+
+    // Setup socket.io
+    this.io = socketio(this.server.server);
   }
 
   createServer (options = this.options) {
@@ -73,6 +83,9 @@ export default class CLI extends roar.CLI {
   }
 
   index (req, res) {
+    return fs.createReadStream(path.join(__dirname, '../public/test.html')).pipe(res);
+
+    // todo: once test done, put back json response with version
     res.setHeader('Content-Type', 'application/json');
     res.write(JSON.stringify({
       tinylr: 'Welcome dashboard'
@@ -93,12 +106,34 @@ export default class CLI extends roar.CLI {
     res.end();
   }
 
-  dashboard(req, res) {
+  dashboard (req, res) {
     fs.createReadStream(path.join(__dirname, '../public/index.html')).pipe(res);
   }
 
-  dashboardAsset(req, res) {
+  dashboardAsset (req, res) {
     return this.assets.handle(req, res);
+  }
+
+  clientDestroyed (id, url) {
+    let client = this.server.clients[id];
+    debug('Client destroyed', id, url);
+
+    return this.io.emit('tinylr:destroy', {
+      command: 'tinylr:destroy',
+      id: id,
+      url: url
+    });
+  }
+
+  clientCreated (id, url) {
+    let client = this.server.clients[id];
+    debug('Client created', id, url);
+
+    return this.io.emit('tinylr:create', {
+      command: 'tinylr:create',
+      id: id,
+      url: url
+    });
   }
 
   listen (done = () => {}) {
