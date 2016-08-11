@@ -58,7 +58,8 @@ export default class CLI extends roar.CLI {
     this.server.on('GET /', this.index.bind(this));
     this.server.on('GET /dashboard', this.dashboard.bind(this));
     this.server.on('GET /clients', this.clients.bind(this));
-    this.server.on('GET /assets/index.js', this.dashboardJS.bind(this));
+    this.server.on('GET /assets/index.js', this.dashboardAsset.bind(this));
+    this.server.on('GET /assets/index.css', this.dashboardAsset.bind(this));
   }
 
   createServer (options = this.options) {
@@ -96,7 +97,7 @@ export default class CLI extends roar.CLI {
     fs.createReadStream(path.join(__dirname, '../public/index.html')).pipe(res);
   }
 
-  dashboardJS(req, res) {
+  dashboardAsset(req, res) {
     return this.assets.handle(req, res);
   }
 
