@@ -1,9 +1,12 @@
 
 body {
   .dashboard-card-title  {
-    color: white;
     font-size: 24px;
     font-weight: 400;
+
+    a {
+      color: white;
+    }
   }
 
   .demo-layout .mdl-layout__header .mdl-layout__drawer-button {
