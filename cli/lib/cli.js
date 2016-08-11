@@ -75,7 +75,6 @@ export default class CLI extends roar.CLI {
   listen (done = () => {}) {
     return this.server.listen(this.options.port, (err) => {
       if (err) return this.error(err);
-      // return done();
       this.writePID(this.options, done);
     });
   }
