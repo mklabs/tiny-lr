@@ -5,8 +5,8 @@
   "main": "./lib",
   "bin": "./cli/bin/tiny-lr",
   "scripts": {
-    "start": "bake",
-    "test": "bake test"
+    "start": "make",
+    "test": "make test"
   },
   "files": [
     "lib"
