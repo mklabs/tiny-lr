@@ -86,12 +86,12 @@ export default class CLI extends roar.CLI {
     return fs.createReadStream(path.join(__dirname, '../public/test.html')).pipe(res);
 
     // todo: once test done, put back json response with version
-    res.setHeader('Content-Type', 'application/json');
-    res.write(JSON.stringify({
-      tinylr: 'Welcome dashboard'
-    }));
-
-    res.end();
+    // res.setHeader('Content-Type', 'application/json');
+    // res.write(JSON.stringify({
+    //   tinylr: 'Welcome dashboard'
+    // }));
+    //
+    // res.end();
   }
 
   clients (req, res) {
@@ -115,7 +115,6 @@ export default class CLI extends roar.CLI {
   }
 
   clientDestroyed (id, url) {
-    let client = this.server.clients[id];
     debug('Client destroyed', id, url);
 
     return this.io.emit('tinylr:destroy', {
@@ -126,7 +125,6 @@ export default class CLI extends roar.CLI {
   }
 
   clientCreated (id, url) {
-    let client = this.server.clients[id];
     debug('Client created', id, url);
 
     return this.io.emit('tinylr:create', {

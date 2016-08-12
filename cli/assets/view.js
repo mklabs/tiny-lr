@@ -1,3 +1,5 @@
+/* globals Yov */
+
 class View extends Yov {
 
   template ({id, url = ''}) {
@@ -8,6 +10,7 @@ class View extends Yov {
             <a href="${url}">${url}</a>
           </h2>
         </div>
+
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
           id: ${id}
         </div>

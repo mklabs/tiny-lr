@@ -1,7 +1,8 @@
+/* globals fetch, localStorage, io */
 const View = require('./view');
 const debug = require('debug')('tinylr:dashboard');
 
-localStorage.debug = 'tinylr:*'
+localStorage.debug = 'tinylr:*';
 let views = {};
 
 fetch('/clients')
@@ -18,17 +19,17 @@ fetch('/clients')
       let view = views[data.id];
       if (!view) return;
 
-      console.log('destroy', data, view, views);
+      debug('destroy', data, view, views);
       view.remove();
     });
 
     socket.on('tinylr:create', function (data) {
-      console.log('create', data);
+      debug('create', data);
       createClient(data);
     });
   });
 
-function createClient(client) {
+function createClient (client) {
   if (!client.url) return;
 
   let view = views[client.id] = new View({
@@ -36,6 +37,6 @@ function createClient(client) {
     defaults: client
   });
 
-  console.log('create view', client);
+  debug('create view', client);
   view.appendTo(document.querySelector('.js-app'));
 }
