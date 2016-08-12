@@ -24,7 +24,7 @@ fix:
 	eslint . --fix
 
 watch:
-	watchd lib/**.js test/wd/index.js package.json -c 'bake test'
+	watchd lib/**.js test/wd/index.js package.json -c 'make test'
 
 release: version push publish
 
