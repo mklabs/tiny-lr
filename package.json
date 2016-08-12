@@ -19,13 +19,15 @@
     "cssnano": "^3.7.3",
     "debug": "~2.2.0",
     "faye-websocket": "~0.10.0",
+    "gaze": "^1.1.1",
+    "glob": "^7.0.5",
     "livereload-js": "^2.2.0",
     "minimist": "^1.2.0",
     "precss": "^1.4.0",
     "qs": "^6.2.0",
     "roar-cli": "^0.2.1",
     "socket.io": "^1.4.8",
-    "tilt-assets": "0.0.2"
+    "tilt-assets": "github:mklabs/tilt-assets"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",

@@ -1,9 +1,10 @@
-const fs       = require('fs');
-const path     = require('path');
-const Server   = require('../..');
-const debug    = require('debug')('tinylr:cli');
-const assets   = require('tilt-assets');
-const roar     = require('roar-cli');
+const fs     = require('fs');
+const path   = require('path');
+const debug  = require('debug')('tinylr:cli');
+const assets = require('tilt-assets');
+const roar   = require('roar-cli');
+const gaze   = require('gaze');
+const Server = require('../..');
 
 export default class CLI extends roar.CLI {
   get example () {
@@ -39,7 +40,7 @@ export default class CLI extends roar.CLI {
     };
   }
 
-  constructor (parser, socketio, options) {
+  constructor (parser, socketio, files = [], options = {}) {
     super(parser, options);
 
     this.options = Object.assign({}, options, this.argv);
@@ -70,6 +71,9 @@ export default class CLI extends roar.CLI {
 
     // Setup socket.io
     this.io = socketio(this.server.server);
+
+    // Setup watching
+    this.watch(files);
   }
 
   createServer (options = this.options) {
@@ -80,6 +84,27 @@ export default class CLI extends roar.CLI {
     });
 
     return srv;
+  }
+
+  watch (files) {
+    debug('Watching %d files', files.length);
+
+    let srv = this.server;
+    let error = this.error.bind(this);
+    gaze(files, function (err, watcher) {
+      if (err) return error(err);
+
+      this.on('all', function (event, filepath) {
+        debug(filepath + ' was ' + event);
+        process.nextTick(function () {
+          srv.changed({
+            params: {
+              files: [filepath]
+            }
+          });
+        });
+      });
+    });
   }
 
   index (req, res) {

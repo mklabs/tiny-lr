@@ -4,18 +4,23 @@ process.env.DEBUG = process.env.DEBUG || 'tinylr*';
 
 const debug = require('debug')('tinylr:cli');
 const fs    = require('fs');
-const path  = require('path');
+const glob  = require('glob');
 
 // Have babel-register loaded after debug, otherwise cause issues with debug
 require('babel-register')();
 const CLI = require('../lib/cli');
 
-let cli = new CLI(require('minimist'), require('socket.io'));
+// Build list of files to watch, and make sure to ignore node_modules files
+let files = glob.sync('**/*.{js,css}', {
+  ignore: 'node_modules/**'
+});
+
+let cli = new CLI(require('minimist'), require('socket.io'), files);
 cli.listen(() => {
   debug('Listening on %d (env: %s)', cli.options.port, process.env.DEBUG);
 });
 
-process.on('exit', function() {
+process.on('exit', function () {
   debug('... Closing server and removing PID file ...');
   try {
     fs.unlinkSync(cli.options.pid);
@@ -24,10 +29,10 @@ process.on('exit', function() {
   }
 });
 
-process.on('SIGTERM', function() {
+process.on('SIGTERM', function () {
   return process.exit(0);
 });
 
-process.on('SIGINT', function() {
+process.on('SIGINT', function () {
   return process.exit(0);
 });
