@@ -4,8 +4,13 @@
   "description": "Tiny LiveReload server, background-friendly",
   "main": "./lib",
   "scripts": {
+    "prepublish:": "npm test",
     "start": "make",
-    "test": "make test"
+    "test": "make test wd",
+    "test-debug": "DEBUG=tinylr:* mocha --reporter list",
+    "test-debug-all": "DEBUG=* mocha --reporter list",
+    "post-change": "sh scripts/post-change",
+    "get-change": "curl http://localhost:35729/changed?files=site.css"
   },
   "files": [
     "lib"
