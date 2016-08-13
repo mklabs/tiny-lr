@@ -3,7 +3,6 @@
   "version": "0.2.1",
   "description": "Tiny LiveReload server, background-friendly",
   "main": "./lib",
-  "bin": "./cli/bin/tiny-lr",
   "scripts": {
     "start": "make",
     "test": "make test"
@@ -12,22 +11,11 @@
     "lib"
   ],
   "dependencies": {
-    "autoprefixer": "^6.4.0",
-    "babel-preset-es2015": "^6.13.2",
-    "babelify": "^7.3.0",
     "body": "^5.1.0",
-    "cssnano": "^3.7.3",
     "debug": "~2.2.0",
     "faye-websocket": "~0.10.0",
-    "gaze": "^1.1.1",
-    "glob": "^7.0.5",
     "livereload-js": "^2.2.0",
-    "minimist": "^1.2.0",
-    "precss": "^1.4.0",
-    "qs": "^6.2.0",
-    "roar-cli": "^0.2.1",
-    "socket.io": "^1.4.8",
-    "tilt-assets": "github:mklabs/tilt-assets"
+    "qs": "^6.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
@@ -54,31 +42,6 @@
   },
   "config": {
     "test_port": "9001"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": "es2015"
-        }
-      ]
-    ],
-    "debug": true
-  },
-  "postcss": {
-    "use": [
-      "autoprefixer",
-      "precss",
-      "cssnano"
-    ],
-    "autoprefixer": {
-      "browsers": "> 5%"
-    },
-    "cssnano": {
-      "discardComments": false
-    },
-    "map": true
   },
   "license": "MIT"
 }
