@@ -48,5 +48,23 @@
   "config": {
     "test_port": "9001"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Kyle Robinson Young",
+      "url": "https://github.com/shama"
+    },
+    {
+      "name": "Jordan Hawker",
+      "url": "https://github.com/elwayman02"
+    },
+    {
+      "name": "Hemanth.hm",
+      "url": "https://github.com/hemanth"
+    },
+    {
+      "name": "Mickael Daniel",
+      "url": "https://github.com/mklabs"
+    }
+  ]
 }
