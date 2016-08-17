@@ -153,7 +153,6 @@ See [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
 - `cert`          - Option to pass in to create an https server
 - `pfx`           - Can also be used to create an https server instead of `key` & `cert`
 - `liveCSS`       - LiveReload option to enable live CSS reloading (defaults to true)
-- `liveJs`        - LiveReload option to enable live JS reloading (defaults to true)
 - `liveImg`       - LiveReload option to enable live images reloading (defaults to true)
 
 ## Tests
