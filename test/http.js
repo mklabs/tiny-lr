@@ -1,9 +1,9 @@
-var app     = require('../../examples/express/app');
-var request = require('supertest');
+import app from '../examples/express/app';
+import request from 'supertest';
 
-describe('mocha spec examples', function () {
-  describe('tinylr', function () {
-    it('GET /', function (done) {
+describe('mocha spec examples', () => {
+  describe('tinylr', () => {
+    it('GET /', done => {
       request(app)
         .get('/')
         .expect('Content-Type', /text\/html/)

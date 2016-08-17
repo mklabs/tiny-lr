@@ -1,11 +1,11 @@
-var request = require('supertest');
-var assert  = require('assert');
-var listen  = require('./helpers/listen');
+import request from 'supertest';
+import assert from 'assert';
+import listen from './helpers/listen';
 
-describe('tiny-lr', function () {
+describe('tiny-lr', () => {
   before(listen());
 
-  describe('GET /', function () {
+  describe('GET /', () => {
     it('respond with nothing, but respond', function (done) {
       request(this.server)
         .get('/')
@@ -23,7 +23,7 @@ describe('tiny-lr', function () {
     });
   });
 
-  describe('GET /changed', function () {
+  describe('GET /changed', () => {
     it('with no clients, no files', function (done) {
       request(this.server)
         .get('/changed')
@@ -42,7 +42,7 @@ describe('tiny-lr', function () {
     });
   });
 
-  describe('POST /changed', function () {
+  describe('POST /changed', () => {
     it('with no clients, no files', function (done) {
       request(this.server)
         .post('/changed')
@@ -53,7 +53,7 @@ describe('tiny-lr', function () {
     });
 
     it('with no clients, some files', function (done) {
-      var data = { clients: [], files: ['cat.css', 'sed.css', 'ack.js'] };
+      const data = { clients: [], files: ['cat.css', 'sed.css', 'ack.js'] };
 
       request(this.server)
         .post('/changed')
@@ -65,9 +65,9 @@ describe('tiny-lr', function () {
     });
   });
 
-  describe('POST /alert', function () {
+  describe('POST /alert', () => {
     it('with no clients, no message', function (done) {
-      var data = { clients: [] };
+      const data = { clients: [] };
       request(this.server)
         .post('/alert')
         .expect('Content-Type', /json/)
@@ -76,8 +76,8 @@ describe('tiny-lr', function () {
     });
 
     it('with no clients, some message', function (done) {
-      var message = 'Hello Client!';
-      var data = { clients: [], message: message };
+      const message = 'Hello Client!';
+      const data = { clients: [], message: message };
       request(this.server)
         .post('/alert')
         .send({ message: message })
@@ -87,7 +87,7 @@ describe('tiny-lr', function () {
     });
   });
 
-  describe('GET /livereload.js', function () {
+  describe('GET /livereload.js', () => {
     it('respond with livereload script', function (done) {
       request(this.server)
         .get('/livereload.js')
@@ -96,12 +96,12 @@ describe('tiny-lr', function () {
     });
   });
 
-  describe('GET /kill', function () {
+  describe('GET /kill', () => {
     it('shutdown the server', function (done) {
-      var srv = this.server;
+      const srv = this.server;
       request(srv)
         .get('/kill')
-        .expect(200, function (err) {
+        .expect(200, err => {
           if (err) return done(err);
           assert.ok(!srv._handle);
           done();

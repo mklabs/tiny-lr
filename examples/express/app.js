@@ -1,8 +1,8 @@
-var fs      = require('fs');
-var path    = require('path');
-var express = require('express');
-var tinylr  = require('../..');
-var debug   = require('debug')('tinylr:server');
+const fs      = require('fs');
+const path    = require('path');
+const express = require('express');
+const tinylr  = require('../..');
+const debug   = require('debug')('tinylr:server');
 
 process.env.DEBUG = process.env.DEBUG || 'tinylr*';
 
