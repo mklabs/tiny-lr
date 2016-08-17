@@ -5,11 +5,12 @@ help:
 
 babel:
 	babel lib/ -d src/
+	babel test/ -d src_test/
 
 test: eslint mocha
 
 mocha: babel
-	mocha --reporter spec
+	mocha --reporter spec src_test/
 
 serve:
 	node examples/express/server.js

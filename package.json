@@ -2,11 +2,11 @@
   "name": "tiny-lr",
   "version": "1.0.0",
   "description": "Tiny LiveReload server, background-friendly",
-  "main": "./lib",
+  "main": "./src",
   "scripts": {
     "prepublish:": "npm test",
     "start": "make",
-    "test": "make test wd",
+    "test": "make test",
     "test-debug": "DEBUG=tinylr:* mocha --reporter list",
     "test-debug-all": "DEBUG=* mocha --reporter list",
     "post-change": "sh scripts/post-change",
