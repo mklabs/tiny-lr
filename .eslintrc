@@ -12,7 +12,7 @@
 
   "rules": {
     "semi": ["error", "always"],
-    "no-multi-spaces": ["error", { "exceptions": { "VariableDeclarator": true } }],
+    "no-multi-spaces": ["error", { "exceptions": { "VariableDeclarator": true, "ImportDeclaration": true } }],
     "promise/param-names": 0
   }
 }
