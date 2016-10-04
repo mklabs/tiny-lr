@@ -6,25 +6,24 @@ implementation.
 [![NPM](https://nodei.co/npm/tiny-lr.png?downloads=true&stars=true)](https://nodei.co/npm/tiny-lr/)
 
 It exposes an HTTP server and express middleware, with a very basic REST
-Api to notify the server of a particular change.
+API to notify the server of a particular change.
 
-It doesn't have any watch ability, it must be done at the build process or
+It doesn't have any watch ability, this must be done at the build process or
 application level.
 
 Instead, it exposes a very simple API to notify the server that some
-changes have been made, then broadcasted to every livereload client
-connected.
+changes have been made, then broadcasted to every connected livereload client.
 
-    # notify a single change
+    # notify of a single change
     curl http://localhost:35729/changed?files=style.css
 
     # notify using a longer path
     curl http://localhost:35729/changed?files=js/app.js
 
-    # notify multiple changes, comma or space delimited
+    # notify of multiple changes, comma or space delimited
     curl http://localhost:35729/changed?files=index.html,style.css,docs/docco.css
 
-Or you can bulk the information into a POST request, with body as a JSON array of files.
+Or you can bulk the information into a POST request, with the body as a JSON array of files.
 
     curl -X POST http://localhost:35729/changed -d '{ "files": ["style.css", "app.js"] }'
 
@@ -34,16 +33,16 @@ Or you can bulk the information into a POST request, with body as a JSON array o
 
 As for the livereload client, you need to install the browser extension:
 http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-
-(**note**: you need to listen on port 35729 to be able to use with your
-brower extension)
+(**note**: you need to listen on port 35729 to be able to use it with your
+browser extension)
 
 or add the livereload script tag manually:
 http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-script-tag-manually-
-(and here you can choose whatever port you want)
+(and here you can choose whichever port you want)
 
 ## Integration
 
-The best way to integrate the runner in your workflow is to add it as a `reload`
+The best way to integrate the runner into your workflow is to add it as a `reload`
 step within your build tool.
 
 ```js
@@ -58,7 +57,7 @@ tinylr().listen(port, function() {
 })
 ```
 
-You can define your own route and listen for specific request:
+You can define your own route and listen for a specific request:
 
 ```js
 var server = tinylr();
@@ -97,7 +96,6 @@ var app = express();
 
 // This binds both express app and tinylr on the same port
 
-
 app
   .use(body())
   .use(tinylr.middleware({ app: app }))
@@ -121,12 +119,12 @@ Head over to [https://github.com/gruntjs/grunt-contrib-watch](https://github.com
 
 ### Using make
 
-See [make-livereload](https://github.com/mklabs/make-livereload) repo.
+See the [make-livereload](https://github.com/mklabs/make-livereload) repo.
 This repository defines a bin wrapper you can use and install with:
 
     npm install make-livereload -g
 
-It bundles the same bin wrapper previously used in tiny-lr repo.
+It bundles the same bin wrapper previously used in the tiny-lr repo.
 
     Usage: tiny-lr [options]
 
@@ -139,14 +137,14 @@ It bundles the same bin wrapper previously used in tiny-lr repo.
 
 ### Using gulp
 
-See [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
+See the [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
 
 ## Options
 
 - `livereload`    - Path to the client side lib (defaults to `path.join(__dirname, '../node_modules/livereload-js/dist/livereload.js')`)
 - `port`          - Livereload port (defaults to `35729`)
 - `errorListener` - A callback to invoke when an error occurs (otherwise, fallbacks to standard error output)
-- `handler`       - A function to use as main request handler (`function(req,
+- `handler`       - A function to use as the main request handler (`function(req,
   res)`). When not defined, the default handler takes place.
 - `app`           - An express or other middleware based HTTP server
 - `key`           - Option to pass in to create an https server
