@@ -26,7 +26,6 @@
     "debug": "~2.2.0",
     "faye-websocket": "~0.10.0",
     "livereload-js": "^2.2.2",
-    "npm-watch": "^0.1.6",
     "qs": "^6.2.0"
   },
   "devDependencies": {
@@ -42,7 +41,8 @@
     "gaze": "^1.1.2",
     "mocha": "^2.3.3",
     "standard-version": "^2.2.1",
-    "supertest": "^1.2.0"
+    "supertest": "^1.2.0",
+    "npm-watch": "^0.1.6"
   },
   "author": "mklabs",
   "homepage": "https://github.com/mklabs/tiny-lr",
