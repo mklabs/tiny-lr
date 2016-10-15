@@ -1,15 +1,15 @@
 
-var Server = require('../..').Server;
-var request = require('supertest');
+import {Server} from '../..';
+import request from 'supertest';
 
-module.exports = function listen(opts) {
+export default function listen (opts) {
   opts = opts || {};
 
-  return function _listen(done) {
+  return function _listen (done) {
     this.app = new Server();
-    var srv = this.server = this.app.server;
-    var ctx = this;
-    this.server.listen(function (err) {
+    const srv = this.server = this.app.server;
+    const ctx = this;
+    this.server.listen(err => {
       if (err) return done(err);
       ctx.request = request(srv)
         .get('/')

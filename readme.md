@@ -152,6 +152,8 @@ See the [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
 - `pfx`           - Can also be used to create an https server instead of `key` & `cert`
 - `liveCSS`       - LiveReload option to enable live CSS reloading (defaults to true)
 - `liveImg`       - LiveReload option to enable live images reloading (defaults to true)
+- `dashboard`     - A boolean to prevent tiny-lr from configuring a default
+  "home" route. Only used with the CLI (default: false)
 
 ## Tests
 
@@ -161,14 +163,13 @@ See the [gulp-livereload](https://github.com/vohof/gulp-livereload) repo.
 
 
 # TOC
-   - [tiny-lr](#tiny-lr)
-     - [GET /](#tiny-lr-get-)
-     - [GET /changed](#tiny-lr-get-changed)
-     - [POST /changed](#tiny-lr-post-changed)
-     - [GET /livereload.js](#tiny-lr-get-livereloadjs)
-     - [GET /kill](#tiny-lr-get-kill)
 
-accepts ws clients.
+- [GET /](#tiny-lr-get-)
+- [GET /changed](#tiny-lr-get-changed)
+- [POST /changed](#tiny-lr-post-changed)
+- [GET /livereload.js](#tiny-lr-get-livereloadjs)
+- [GET /kill](#tiny-lr-get-kill)
+
 
 ```js
 var url = parse(this.request.url);
