@@ -4,7 +4,7 @@
   "description": "Tiny LiveReload server, background-friendly",
   "main": "./src",
   "scripts": {
-    "prepublish:": "npm test",
+    "prepublish:": "npm run babel",
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint . --debug",
     "babel": "babel lib/ -d src && babel test/ -d src_test/",
