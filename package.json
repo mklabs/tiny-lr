@@ -5,12 +5,18 @@
   "main": "./src",
   "scripts": {
     "prepublish:": "npm test",
-    "start": "make",
-    "test": "make test",
+    "test": "npm run eslint && npm run mocha",
+    "eslint": "eslint . --debug",
+    "babel": "babel lib/ -d src && babel test/ -d src_test/",
+    "mocha": "npm run babel && mocha --reporter spec src_test/",
     "test-debug": "DEBUG=tinylr:* mocha --reporter list",
     "test-debug-all": "DEBUG=* mocha --reporter list",
     "post-change": "sh scripts/post-change",
-    "get-change": "curl http://localhost:35729/changed?files=site.css"
+    "get-change": "curl http://localhost:35729/changed?files=site.css",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "babel": "{lib,test}/**/*.js"
   },
   "files": [
     "lib"
@@ -20,6 +26,7 @@
     "debug": "~2.2.0",
     "faye-websocket": "~0.10.0",
     "livereload-js": "^2.2.0",
+    "npm-watch": "^0.1.6",
     "qs": "^6.2.0"
   },
   "devDependencies": {
@@ -33,11 +40,9 @@
     "eslint-plugin-standard": "^1.3.2",
     "express": "^4.1.1",
     "gaze": "^1.1.2",
-    "make": "^0.8.1",
     "mocha": "^2.3.3",
     "standard-version": "^2.2.1",
-    "supertest": "^1.2.0",
-    "watchd": "github:mklabs/watchd"
+    "supertest": "^1.2.0"
   },
   "author": "mklabs",
   "homepage": "https://github.com/mklabs/tiny-lr",

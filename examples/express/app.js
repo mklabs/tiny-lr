@@ -1,4 +1,3 @@
-const fs      = require('fs');
 const path    = require('path');
 const express = require('express');
 const tinylr  = require('../..');
@@ -15,18 +14,6 @@ function logger (fmt) {
   return function logger (req, res, next) {
     debug(fmt, req.method, req.url);
     next();
-  };
-}
-
-function throttle (delay, fn) {
-  var now = Date.now();
-
-  return function () {
-    var from = Date.now();
-    var interval = from - now;
-    if (interval < delay) return;
-    now = from;
-    fn.apply(this, arguments);
   };
 }
 
