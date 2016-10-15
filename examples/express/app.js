@@ -3,6 +3,7 @@ const path    = require('path');
 const express = require('express');
 const tinylr  = require('../..');
 const debug   = require('debug')('tinylr:server');
+const gaze    = require('gaze');
 
 process.env.DEBUG = process.env.DEBUG || 'tinylr*';
 
@@ -32,13 +33,11 @@ function throttle (delay, fn) {
 (function watch (em) {
   em = em || new (require('events').EventEmitter)();
 
-  em.on('rename', function (file) {
-    tinylr.changed(file);
+  gaze(path.join(__dirname, 'styles/site.css'), function () {
+    this.on('changed', function (filepath) {
+      tinylr.changed(filepath);
+    });
   });
-
-  fs.watch(path.join(__dirname, 'styles/site.css'), throttle(200, function (ev, filename) {
-    em.emit(ev, filename);
-  }));
 
   return watch;
 })();
