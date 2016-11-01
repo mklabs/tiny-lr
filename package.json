@@ -5,6 +5,8 @@
   "main": "./src",
   "scripts": {
     "prepublish:": "npm run babel",
+    "preversion": "npm test",
+    "postversion": "git push origin master --follow-tags && npm publish",
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint . --debug",
     "babel": "babel lib/ -d src && babel test/ -d src_test/",
