@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "body": "^5.1.0",
-    "debug": "~2.2.0",
+    "debug": "~2.6.7",
     "faye-websocket": "~0.10.0",
     "livereload-js": "^2.2.2",
     "object-assign": "^4.1.0",
