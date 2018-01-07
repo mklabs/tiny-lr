@@ -24,7 +24,7 @@
     "body": "^5.1.0",
     "debug": "~2.6.7",
     "faye-websocket": "~0.10.0",
-    "livereload-js": "^2.2.2",
+    "livereload-js": "^2.3.0",
     "object-assign": "^4.1.0",
     "qs": "^6.4.0"
   },
