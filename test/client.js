@@ -1,25 +1,20 @@
 
-var request = require('supertest');
-var assert  = require('assert');
-var parse   = require('url').parse;
+import request from 'supertest';
+import assert from 'assert';
+import {parse} from 'url';
+import listen from './helpers/listen';
+import {Client as WebSocket} from 'faye-websocket';
 
-var WebSocket = require('faye-websocket').Client;
-var Server = require('..').Server;
-
-var listen = require('./helpers/listen');
-
-describe('tiny-lr', function() {
-
+describe('tiny-lr', () => {
   before(listen());
+  it('accepts ws clients', function (done) {
+    const url = parse(this.request.url);
+    const server = this.app;
 
-  it('accepts ws clients', function(done) {
-    var url = parse(this.request.url);
-    var server = this.app;
+    const ws = this.ws = new WebSocket('ws://' + url.host + '/livereload');
 
-    var ws = this.ws = new WebSocket('ws://' + url.host + '/livereload');
-
-    ws.onopen = function(event) {
-      var hello = {
+    ws.onopen = event => {
+      const hello = {
         command: 'hello',
         protocols: ['http://livereload.com/protocols/official-7']
       };
@@ -27,7 +22,7 @@ describe('tiny-lr', function() {
       ws.send(JSON.stringify(hello));
     };
 
-    ws.onmessage = function(event) {
+    ws.onmessage = event => {
       assert.deepEqual(event.data, JSON.stringify({
         command: 'hello',
         protocols: ['http://livereload.com/protocols/official-7'],
@@ -39,14 +34,13 @@ describe('tiny-lr', function() {
     };
   });
 
-  it('properly cleans up established connection on exit', function(done) {
-    var ws = this.ws;
+  it('properly cleans up established connection on exit', function (done) {
+    const ws = this.ws;
 
     ws.onclose = done.bind(null, null);
 
     request(this.server)
       .get('/kill')
-      .expect(200, function() {});
+      .expect(200, () => {});
   });
-
 });
