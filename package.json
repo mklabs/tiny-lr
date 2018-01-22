@@ -1,6 +1,6 @@
 {
   "name": "tiny-lr",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Tiny LiveReload server, background-friendly",
   "main": "./src",
   "scripts": {
